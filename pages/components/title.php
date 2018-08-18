@@ -1,0 +1,1 @@
+<title>CorpSec - Sistema de gestión de seguridad</title>
