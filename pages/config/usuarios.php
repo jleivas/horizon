@@ -187,6 +187,9 @@ function buildPath(){
                           <?php echo $fila['us_mail'];?>
                           </td>
                           <td>
+                            <?php
+                             if($fila['us_status']==1){
+                               ?>
                             <div class="btn-group dropdown">
                               <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Administrar
@@ -195,9 +198,24 @@ function buildPath(){
                                 <a class="dropdown-item" href="modificar-usuario?cod=<?php echo $cod;?>">
                                   <i class="fa fa-reply fa-fw"></i>Modificar</a>
                                 <a class="dropdown-item" href="eliminar-usuario?cod=<?php echo $cod;?>">
-                                  <i class="fa fa-history fa-fw"></i>Eliminar</a>
+                                  <i class="fa fa-history fa-fw"></i>Bloquear</a>
                               </div>
                             </div>
+                               <?php
+                             }else{
+                               ?>
+                            <div class="btn-group dropdown">
+                              <button type="button" class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Bloqueado
+                              </button>
+                              <div class="dropdown-menu">
+                                <a class="dropdown-item" href="eliminar-usuario?cod=<?php echo $cod;?>&st=1">
+                                  <i class="fa fa-history fa-fw"></i>Desbloquear</a>
+                              </div>
+                            </div>
+                               <?php
+                             }
+                            ?>
                           </td>
                         </tr>
                         <?php
