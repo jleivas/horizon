@@ -74,24 +74,24 @@ function buildPath(){
         <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Usuarios</h4>
+                  <h4 class="card-title">Empresa Softdirex</h4>
                   
                   <p class="card-description">
                   <div class="form-group">
-                    Crear nuevo usuario
-                      <form action="nuevo-usuario"
+                    Crear nueva sede
+                      <form action="nueva-sede"
                             name="form1"
                             id="form1"
                             method="post"> 
                             <input type="button" 
                             class="btn btn-success btn-rounded btn-fw"
-                            value="Crear usuario" 
+                            value="Crear sede" 
                             id="nuevo"
                             name="nuevo" 
-                            onclick= "document.form1.action = 'nuevo-usuario'; 
+                            onclick= "document.form1.action = 'nueva-sede'; 
                             document.form1.submit()" />
                       </form>
-                      </div>
+                    </div>
                     <div class="form-group">
                         <div class="input-group">
                           <div class="input-group-prepend">
@@ -106,39 +106,39 @@ function buildPath(){
                       <thead>
                         <tr>
                           <th>
-                            
-                          </th>
-                          <th>
                             Nombre
                           </th>
                           <th>
-                            Tipo
+                            Direccion
                           </th>
                           <th>
-                            Compañía
+                            Cuidad
                           </th>
                           <th>
-                            Mail
+                            Cliente
+                          </th>
+                          <th>
+                            Auditor
                           </th>
                           <th></th>
                         </tr>
                       </thead>
                       <tbody class="buscar">
                         <tr>
-                          <td class="py-1">
-                            <img src="<?php echo $bg_sp;?>images/faces-clipart/pic-1.png" alt="image" />
+                          <td>
+                            Bodega
                           </td>
                           <td>
-                            Herman Beck
+                            Uno norte 130
                           </td>
                           <td>
-                            Administrador
+                            Paine
                           </td>
                           <td>
-                            Softdirex
+                            Jorge Leiva
                           </td>
                           <td>
-                            herman@sdx.cl
+                            Pedro Fuentes
                           </td>
                           <td>
                             <div class="btn-group dropdown">
@@ -148,6 +148,10 @@ function buildPath(){
                               <div class="dropdown-menu">
                                 <a class="dropdown-item" href="#">
                                   <i class="fa fa-reply fa-fw"></i>Modificar</a>
+                                <a class="dropdown-item" href="evaluaciones">
+                                  <i class="fa fa-reply fa-fw"></i>Evaluaciones</a>
+                                  <a class="dropdown-item" href="#">
+                                  <i class="fa fa-reply fa-fw"></i>Crear auditoria</a>
                                 <a class="dropdown-item" href="#">
                                   <i class="fa fa-history fa-fw"></i>Eliminar</a>
                               </div>
@@ -155,20 +159,20 @@ function buildPath(){
                           </td>
                         </tr>
                         <tr>
-                          <td class="py-1">
-                            <img src="<?php echo $bg_sp;?>images/faces-clipart/pic-2.png" alt="image" />
+                        <td>
+                            Oficina
                           </td>
                           <td>
-                            Messsy Adam
+                            Teatinos 333
                           </td>
                           <td>
-                            Cliente
+                            Santiago
                           </td>
                           <td>
-                            Softdirex
+                            Jorge Leiva
                           </td>
                           <td>
-                            Messsy@sdx.cl
+                            Pedro Fuentes
                           </td>
                           <td>
                             <div class="btn-group dropdown">
@@ -178,6 +182,10 @@ function buildPath(){
                               <div class="dropdown-menu">
                                 <a class="dropdown-item" href="#">
                                   <i class="fa fa-reply fa-fw"></i>Modificar</a>
+                                <a class="dropdown-item" href="#">
+                                  <i class="fa fa-reply fa-fw"></i>Evaluaciones</a>
+                                  <a class="dropdown-item" href="#">
+                                  <i class="fa fa-reply fa-fw"></i>Crear auditoria</a>
                                 <a class="dropdown-item" href="#">
                                   <i class="fa fa-history fa-fw"></i>Eliminar</a>
                               </div>
@@ -185,50 +193,20 @@ function buildPath(){
                           </td>
                         </tr>
                         <tr>
-                          <td class="py-1">
-                            <img src="<?php echo $bg_sp;?>images/faces-clipart/pic-3.png" alt="image" />
+                          <td>
+                            Sede La Serena
                           </td>
                           <td>
-                            John Richards
+                            Las Bugambilias 3232
                           </td>
                           <td>
-                            Auditor
+                            La Serena
                           </td>
                           <td>
-                            Softdirex
+                            Luis Perez
                           </td>
                           <td>
-                            jrich@sdx.cl
-                          </td>
-                          <td>
-                            <div class="btn-group dropdown">
-                              <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Administrar
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-reply fa-fw"></i>Modificar</a>
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-history fa-fw"></i>Eliminar</a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="<?php echo $bg_sp;?>images/faces-clipart/pic-4.png" alt="image" />
-                          </td>
-                          <td>
-                            Peter Meggik
-                          </td>
-                          <td>
-                            Super Administrador
-                          </td>
-                          <td>
-                            Softdirex
-                          </td>
-                          <td>
-                            peter@sdx.cl
+                            Hugo Ramirez
                           </td>
                           <td>
                             <div class="btn-group dropdown">
@@ -239,95 +217,9 @@ function buildPath(){
                                 <a class="dropdown-item" href="#">
                                   <i class="fa fa-reply fa-fw"></i>Modificar</a>
                                 <a class="dropdown-item" href="#">
-                                  <i class="fa fa-history fa-fw"></i>Eliminar</a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="<?php echo $bg_sp;?>images/faces-clipart/pic-1.png" alt="image" />
-                          </td>
-                          <td>
-                            Edward
-                          </td>
-                          <td>
-                            Cliente
-                          </td>
-                          <td>
-                            Softdirex
-                          </td>
-                          <td>
-                            edward@sdx.cl
-                          </td>
-                          <td>
-                            <div class="btn-group dropdown">
-                              <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Administrar
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-reply fa-fw"></i>Modificar</a>
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-history fa-fw"></i>Eliminar</a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="<?php echo $bg_sp;?>images/faces-clipart/pic-2.png" alt="image" />
-                          </td>
-                          <td>
-                            John Doe
-                          </td>
-                          <td>
-                            Cliente
-                          </td>
-                          <td>
-                            Softdirex
-                          </td>
-                          <td>
-                            johndoe@sdx.cl
-                          </td>
-                          <td>
-                            <div class="btn-group dropdown">
-                              <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Administrar
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-reply fa-fw"></i>Modificar</a>
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-history fa-fw"></i>Eliminar</a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="<?php echo $bg_sp;?>images/faces-clipart/pic-3.png" alt="image" />
-                          </td>
-                          <td>
-                            Henry Tom
-                          </td>
-                          <td>
-                            Auditor
-                          </td>
-                          <td>
-                            Softdirex
-                          </td>
-                          <td>
-                            henry@sdx.cl
-                          </td>
-                          <td>
-                            <div class="btn-group dropdown">
-                              <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Administrar
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-reply fa-fw"></i>Modificar</a>
+                                  <i class="fa fa-reply fa-fw"></i>Evaluaciones</a>
+                                  <a class="dropdown-item" href="#">
+                                  <i class="fa fa-reply fa-fw"></i>Crear auditoria</a>
                                 <a class="dropdown-item" href="#">
                                   <i class="fa fa-history fa-fw"></i>Eliminar</a>
                               </div>

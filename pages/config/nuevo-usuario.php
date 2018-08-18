@@ -64,44 +64,92 @@ function buildPath(){
           <div class="col-md-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Basic form</h4>
+                  <h4 class="card-title">Datos del Usuario</h4>
                   <p class="card-description">
-                    Basic form elements
+                    Formulario de registro para nuevos usuarios
                   </p>
                   <form class="forms-sample">
                     <div class="form-group">
-                      <label for="exampleInputName1">Name</label>
-                      <input type="text" class="form-control" id="exampleInputName1" placeholder="Name">
+                      <label for="cod">Dni o Rut</label>
+                      <input type="text" class="form-control" id="cod" placeholder="Dni o Rut">
                     </div>
                     <div class="form-group">
-                      <label for="exampleInputEmail3">Email address</label>
-                      <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+                      <label for="name">Nombre</label>
+                      <input type="text" class="form-control" id="name" placeholder="Nombre">
                     </div>
                     <div class="form-group">
-                      <label for="exampleInputPassword4">Password</label>
-                      <input type="password" class="form-control" id="exampleInputPassword4" placeholder="Password">
+                      <label for="movil">Móvil</label>
+                      <input type="text" class="form-control" id="movil" placeholder="Número de teléfono">
                     </div>
                     <div class="form-group">
-                      <label>File upload</label>
-                      <input type="file" name="img[]" class="file-upload-default">
-                      <div class="input-group col-xs-12">
-                        <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
-                        <span class="input-group-append">
-                          <button class="file-upload-browse btn btn-info" type="button">Upload</button>
-                        </span>
-                      </div>
+                      <label for="fijo">Fijo</label>
+                      <input type="text" class="form-control" id="fijo" placeholder="Número de teléfono">
                     </div>
                     <div class="form-group">
-                      <label for="exampleInputCity1">City</label>
-                      <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location">
+                      <label for="email">Email</label>
+                      <input type="email" class="form-control" id="email" placeholder="Correo electrónico">
                     </div>
                     <div class="form-group">
-                      <label for="exampleTextarea1">Textarea</label>
-                      <textarea class="form-control" id="exampleTextarea1" rows="2"></textarea>
+                      <label for="web">Sitio web</label>
+                      <input type="text" class="form-control" id="web" placeholder="Dirección de sitio web">
                     </div>
-                    <button type="submit" class="btn btn-success mr-2">Submit</button>
-                    <button class="btn btn-light">Cancel</button>
+                    <div class="form-group">
+                      <label for="address">Dirección</label>
+                      <input type="text" class="form-control" id="address" placeholder="Dirección de domicilio">
+                    </div>
+                    <div class="form-group">
+                      <label for="city">Ciudad</label>
+                      <input type="text" class="form-control" id="city" placeholder="Ciudad">
+                    </div>
+                    <div class="form-group">
+                      <label for="province">Provincia</label>
+                      <input type="text" class="form-control" id="province" placeholder="Provincia">
+                    </div>
+                    <div class="form-group">
+                      <label for="country">País</label>
+                      <input type="text" class="form-control" id="country" placeholder="País">
+                    </div>
+                    <div class="form-group">
+                    <label for="company">Compañía</label>
+                    <select class="form-control form-control-lg" id="company">
+                      <option>Softdirex</option>
+                      <option>Valker</option>
+                      <option>Horizon</option>
+                      <option>Security</option>
+                      <option>Cimenta</option>
+                    </select>
+                    </div>
+                    <div class="form-group">
+                    <label for="type">Cateoría</label>
+                    <select class="form-control form-control-lg" id="type">
+                      <option>Super Admin</option>
+                      <option>Admin</option>
+                      <option>Auditor</option>
+                      <option>Cliente</option>
+                    </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="pass">Password</label>
+                      <input type="text" class="form-control" id="pass" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                    <button type="submit" class="btn btn-success mr-2">Crear</button>
+                    </div>
                   </form>
+                  <div class="form-group">
+                  <form action="usuarios"
+                            name="form1"
+                            id="form1"
+                            method="post"> 
+                            <input type="button" 
+                            class="btn btn-warning"
+                            value="Cancelar" 
+                            id="nuevo"
+                            name="nuevo" 
+                            onclick= "document.form1.action = 'usuarios'; 
+                            document.form1.submit()" />
+                  </form>
+                  </div>
                 </div>
               </div>
             </div>

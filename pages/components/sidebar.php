@@ -24,7 +24,7 @@ $bg_sp=buildPath();
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="index.php">
+            <a class="nav-link" href="<?php echo $bg_sp;?>">
               <i class="menu-icon mdi mdi-television"></i>
               <span class="menu-title">Panel principal</span>
             </a>
@@ -50,13 +50,13 @@ $bg_sp=buildPath();
             <div class="collapse" id="ui-config">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item">
-                  <a class="nav-link" href="<?php echo $bg_sp;?>pages/config/usuarios.php">Usuarios</a>
+                  <a class="nav-link" href="<?php echo $bg_sp;?>pages/config/usuarios">Usuarios</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="pages/ui-features/typography.html">Empresas</a>
+                  <a class="nav-link" href="<?php echo $bg_sp;?>pages/config/empresas">Empresas</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="pages/ui-features/typography.html">Evaluaciones</a>
+                  <a class="nav-link" href="<?php echo $bg_sp;?>pages/config/evaluaciones">Evaluaciones</a>
                 </li>
               </ul>
             </div>
