@@ -8,6 +8,13 @@ $footer = "..".$separator."components".$separator."footer.php";
 $title = "..".$separator."components".$separator."title.php";
 /***************************************************** */
 
+if (!isset($rootDir)){
+  $rootDir = $_SERVER['DOCUMENT_ROOT']."/horizon";
+    require_once($rootDir."/private/dao/UsuarioDao.php");
+    $datos=UsuarioDao::sqlTodo();
+} 
+
+
 function buildPath(){
   $domain =  'http://'.$_SERVER['HTTP_HOST'];
   $subdomain = $_SERVER['PHP_SELF'];
@@ -115,7 +122,10 @@ function buildPath(){
                             Tipo
                           </th>
                           <th>
-                            Compañía
+                            Ciudad
+                          </th>
+                          <th>
+                            País
                           </th>
                           <th>
                             Mail
@@ -124,21 +134,57 @@ function buildPath(){
                         </tr>
                       </thead>
                       <tbody class="buscar">
+                        <?php
+                        foreach($datos as $fila) 
+                        {
+                          $cod = $fila['us_cod'];
+                        ?>
                         <tr>
                           <td class="py-1">
-                            <img src="<?php echo $bg_sp;?>images/faces-clipart/pic-1.png" alt="image" />
+                            <img src="<?php echo $bg_sp.$fila['us_avatar'];?>" alt="image" />
                           </td>
                           <td>
-                            Herman Beck
+                          <?php echo $fila['us_name'];?>
                           </td>
                           <td>
-                            Administrador
+                          <?php 
+                          $tipo = $fila['us_tipo'];
+                          if($tipo == 1){
+                            ?>
+                            <mark class="bg-info text-white">Manager</mark>
+                            <?php
+                          }
+                          if($tipo == 2){
+                            ?>
+                            <mark class="bg-danger text-white">Super Admin</mark>
+                            <?php
+                          }
+                          if($tipo == 3){
+                            ?>
+                            <mark class="bg-warning text-white">Admin</mark>
+                            <?php
+                          }
+                          if($tipo == 4){
+                            ?>
+                            <mark class="bg-success text-white">Auditor</mark>
+                            <?php
+                          }
+                          if($tipo == 5){
+                            ?>
+                            <mark class="bg-dark text-white">Cliente</mark>
+                            <?php
+                          }
+                          ?>
+
                           </td>
                           <td>
-                            Softdirex
+                          <?php echo $fila['us_city'];?>
                           </td>
                           <td>
-                            herman@sdx.cl
+                          <?php echo $fila['us_country'];?>
+                          </td>
+                          <td>
+                          <?php echo $fila['us_mail'];?>
                           </td>
                           <td>
                             <div class="btn-group dropdown">
@@ -146,194 +192,17 @@ function buildPath(){
                                 Administrar
                               </button>
                               <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="modificar-usuario?cod=<?php echo $cod;?>">
                                   <i class="fa fa-reply fa-fw"></i>Modificar</a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="eliminar-usuario?cod=<?php echo $cod;?>">
                                   <i class="fa fa-history fa-fw"></i>Eliminar</a>
                               </div>
                             </div>
                           </td>
                         </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="<?php echo $bg_sp;?>images/faces-clipart/pic-2.png" alt="image" />
-                          </td>
-                          <td>
-                            Messsy Adam
-                          </td>
-                          <td>
-                            Cliente
-                          </td>
-                          <td>
-                            Softdirex
-                          </td>
-                          <td>
-                            Messsy@sdx.cl
-                          </td>
-                          <td>
-                            <div class="btn-group dropdown">
-                              <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Administrar
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-reply fa-fw"></i>Modificar</a>
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-history fa-fw"></i>Eliminar</a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="<?php echo $bg_sp;?>images/faces-clipart/pic-3.png" alt="image" />
-                          </td>
-                          <td>
-                            John Richards
-                          </td>
-                          <td>
-                            Auditor
-                          </td>
-                          <td>
-                            Softdirex
-                          </td>
-                          <td>
-                            jrich@sdx.cl
-                          </td>
-                          <td>
-                            <div class="btn-group dropdown">
-                              <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Administrar
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-reply fa-fw"></i>Modificar</a>
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-history fa-fw"></i>Eliminar</a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="<?php echo $bg_sp;?>images/faces-clipart/pic-4.png" alt="image" />
-                          </td>
-                          <td>
-                            Peter Meggik
-                          </td>
-                          <td>
-                            Super Administrador
-                          </td>
-                          <td>
-                            Softdirex
-                          </td>
-                          <td>
-                            peter@sdx.cl
-                          </td>
-                          <td>
-                            <div class="btn-group dropdown">
-                              <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Administrar
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-reply fa-fw"></i>Modificar</a>
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-history fa-fw"></i>Eliminar</a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="<?php echo $bg_sp;?>images/faces-clipart/pic-1.png" alt="image" />
-                          </td>
-                          <td>
-                            Edward
-                          </td>
-                          <td>
-                            Cliente
-                          </td>
-                          <td>
-                            Softdirex
-                          </td>
-                          <td>
-                            edward@sdx.cl
-                          </td>
-                          <td>
-                            <div class="btn-group dropdown">
-                              <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Administrar
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-reply fa-fw"></i>Modificar</a>
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-history fa-fw"></i>Eliminar</a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="<?php echo $bg_sp;?>images/faces-clipart/pic-2.png" alt="image" />
-                          </td>
-                          <td>
-                            John Doe
-                          </td>
-                          <td>
-                            Cliente
-                          </td>
-                          <td>
-                            Softdirex
-                          </td>
-                          <td>
-                            johndoe@sdx.cl
-                          </td>
-                          <td>
-                            <div class="btn-group dropdown">
-                              <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Administrar
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-reply fa-fw"></i>Modificar</a>
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-history fa-fw"></i>Eliminar</a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="<?php echo $bg_sp;?>images/faces-clipart/pic-3.png" alt="image" />
-                          </td>
-                          <td>
-                            Henry Tom
-                          </td>
-                          <td>
-                            Auditor
-                          </td>
-                          <td>
-                            Softdirex
-                          </td>
-                          <td>
-                            henry@sdx.cl
-                          </td>
-                          <td>
-                            <div class="btn-group dropdown">
-                              <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Administrar
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-reply fa-fw"></i>Modificar</a>
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-history fa-fw"></i>Eliminar</a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
+                        <?php
+                        }
+                        ?>
                       </tbody>
                     </table>
                   </div>

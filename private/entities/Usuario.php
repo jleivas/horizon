@@ -15,6 +15,7 @@
         private $city;
         private $province;
         private $country;
+        private $avatar;
         private $status;
 		   
          
@@ -119,6 +120,15 @@
 			$this->country = $country;
         }
 
+        public function getAvatar()
+		{
+			return $this->avatar;
+		}		
+		public function setAvatar($avatar)
+		{
+			$this->avatar = $avatar;
+        }
+
         public function getStatus()
 		{
 			return $this->status;
@@ -130,7 +140,7 @@
 	 	   
            // Constructor
         public function Usuario($cod="null", $name="null",$pass="null",$tipo=0,$phone1="null",$phone2="null",
-        $mail="null",$web="null",$address="null",$city="null",$province="null",$country="null",$status=0)
+        $mail="null",$web="null",$address="null",$city="null",$province="null",$country="null",$avatar="null",$status=0)
 		{
             $this->setCod($cod);
             $this->setName($name);
@@ -144,6 +154,7 @@
             $this->setCity($city);
             $this->setProvince($province);
             $this->setCountry($country);
+            $this->setAvatar($avatar);
             $this->setStatus($status);
 		}
 // Destructor

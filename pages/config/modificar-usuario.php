@@ -7,6 +7,16 @@ $navBar = "..".$separator."components".$separator."navbar.php";
 $sideBar = "..".$separator."components".$separator."sidebar.php";
 $footer = "..".$separator."components".$separator."footer.php";
 $title = "..".$separator."components".$separator."title.php";
+if (!isset($rootDir)){
+    $rootDir = $_SERVER['DOCUMENT_ROOT']."/horizon";
+      require_once($rootDir."/private/dao/UsuarioDao.php");
+  } 
+$cod="";
+if(isset($_GET['cod'])){
+  $cod=$_GET['cod'];
+}
+$loadUser = UsuarioDao::sqlCargar($cod);
+
 /***************************************************** */
 
 function buildPath(){
@@ -66,48 +76,48 @@ function buildPath(){
                 <div class="card-body">
                   <h4 class="card-title">Datos del Usuario</h4>
                   <p class="card-description">
-                    Formulario de registro para nuevos usuarios
+                    Actualizar datos del usuario
                   </p>
-                  <form  action="addUser.php"  method="post">
+                  <form  action="updateUser.php"  method="post">
                     <div class="form-group">
                       <label for="cod">Dni o Rut</label>
-                      <input type="text" class="form-control" name="cod" id="cod" placeholder="Dni o Rut" required>
+                      <input type="text" class="form-control" name="cod" id="cod" value="<?php echo $loadUser->getCod();?>" readonly="readonly">
                     </div>
                     <div class="form-group">
                       <label for="name">Nombre</label>
-                      <input type="text" class="form-control" name="name" id="name" placeholder="Nombre" required>
+                      <input type="text" class="form-control" name="name" id="name" value="<?php echo $loadUser->getName();?>" required>
                     </div>
                     <div class="form-group">
                       <label for="movil">Móvil</label>
-                      <input type="text" class="form-control" name="movil" id="movil" placeholder="Número de teléfono">
+                      <input type="text" class="form-control" name="movil" id="movil" value="<?php echo $loadUser->getPhone1();?>">
                     </div>
                     <div class="form-group">
                       <label for="fijo">Fijo</label>
-                      <input type="text" class="form-control" name="fijo" id="fijo" placeholder="Número de teléfono">
+                      <input type="text" class="form-control" name="fijo" id="fijo" value="<?php echo $loadUser->getPhone2();?>">
                     </div>
                     <div class="form-group">
                       <label for="email">Email</label>
-                      <input type="email" class="form-control" name="email" id="email" placeholder="Correo electrónico" required>
+                      <input type="email" class="form-control" name="email" id="email" value="<?php echo $loadUser->getMail();?>" required>
                     </div>
                     <div class="form-group">
                       <label for="web">Sitio web</label>
-                      <input type="text" class="form-control" name="web" id="web" placeholder="Dirección de sitio web">
+                      <input type="text" class="form-control" name="web" id="web" value="<?php echo $loadUser->getWeb();?>">
                     </div>
                     <div class="form-group">
                       <label for="address">Dirección</label>
-                      <input type="text" class="form-control" name="address" id="address" placeholder="Dirección de domicilio" required>
+                      <input type="text" class="form-control" name="address" id="address" value="<?php echo $loadUser->getAddress();?>" required>
                     </div>
                     <div class="form-group">
                       <label for="city">Ciudad</label>
-                      <input type="text" class="form-control" name="city" id="city" placeholder="Ciudad" required>
+                      <input type="text" class="form-control" name="city" id="city" value="<?php echo $loadUser->getCity();?>" required>
                     </div>
                     <div class="form-group">
                       <label for="province">Provincia</label>
-                      <input type="text" class="form-control" name="province" id="province" placeholder="Provincia" required>
+                      <input type="text" class="form-control" name="province" id="province" value="<?php echo $loadUser->getProvince();?>" required>
                     </div>
                     <div class="form-group">
                       <label for="country">País</label>
-                      <input type="text" class="form-control" name="country"  id="country" placeholder="País" required>
+                      <input type="text" class="form-control" name="country"  id="country" value="<?php echo $loadUser->getCountry();?>" required>
                     </div>
                     <div class="form-group">
                     <label for="type">Cateoría</label>
@@ -117,6 +127,17 @@ function buildPath(){
                       <option value="4">Auditor</option>
                       <option value="5">Cliente</option>
                     </select>
+                    <script
+                        src="https://code.jquery.com/jquery-3.2.0.min.js"
+                        integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I="
+                        crossorigin="anonymous">
+                    </script>
+                    <script>
+                        //Esta es la función que una vez se cargue el documento será gatillada.
+                        $(function(){
+                            $("#category").val('<?php echo $loadUser->getTipo();?>')
+                        });
+                    </script>
                     </div>
                     <p class="form-group">Avatar</p>
                     <div class="form-group">
@@ -125,18 +146,20 @@ function buildPath(){
                       3-<img src="<?php echo $bg_sp;?>images/faces-clipart/pic-3.png" alt="image" />&nbsp;&nbsp;
                       4-<img src="<?php echo $bg_sp;?>images/faces-clipart/pic-4.png" alt="image" />
                       <select class="form-control form-control-lg" name="image" id="image">
-                      <option value="1">Imagen 1</option>
-                      <option value="2">Imagen 2</option>
-                      <option value="3">Imagen 3</option>
-                      <option value="4">Imagen 4</option>
+                      <option value="images/faces-clipart/pic-1.png">Imagen 1</option>
+                      <option value="images/faces-clipart/pic-2.png">Imagen 2</option>
+                      <option value="images/faces-clipart/pic-3.png">Imagen 3</option>
+                      <option value="images/faces-clipart/pic-4.png">Imagen 4</option>
                     </select>
+                    <script>
+                        //getAvatar retorna la uirl de la imagen, configurar con str para mostrar sólo el número.
+                        $(function(){
+                            $("#image").val('<?php echo $loadUser->getAvatar();?>')
+                        });
+                    </script>
                     </div>
                     <div class="form-group">
-                      <label for="pass">Password</label>
-                      <input type="text" class="form-control" name="pass" id="pass" placeholder="Password" required>
-                    </div>
-                    <div class="form-group">
-                    <input type="submit" value="Crear" class="btn btn-success mr-2">
+                    <input type="submit" value="Modificar" class="btn btn-info mr-2">
                     </div>
                   </form>
                   <div class="form-group">

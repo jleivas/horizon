@@ -1,7 +1,7 @@
 <?PHP
 // Declaramos una variable $rootDir si es que no existe
 // isset==> si existe o no una variable
-if (!isset($rootDir)) $rootDir = $_SERVER['DOCUMENT_ROOT'];
+if (!isset($rootDir)) $rootDir = $_SERVER['DOCUMENT_ROOT']."/horizon";
 //Agregamos desde BD.PHPy la Entitie Usuario
 // desde el Path raiz ==> $rootDir
 require_once($rootDir . "/private/BD/bd.php");
@@ -11,11 +11,10 @@ class UsuarioDao {
    {
         $stSql  = "insert into usuario (";
         $stSql .= " us_cod, us_name, us_pass, us_tipo, us_phone1, us_phone2, us_mail,";
-        $stSql .= "us_web, us_address, us_city, us_province, us_country, us_status";
+        $stSql .= "us_web, us_address, us_city, us_province, us_country,us_avatar, us_status";
         $stSql .= " )values (";
         $stSql .= " '{$usuario->getCod()}'"
-                . ",'{$usuario->getname()}'"
-                . ",'{$usuario->getApellido()}'"
+                . ",'{$usuario->getName()}'"
                 . ",'{$usuario->getPass()}'"
                 . ",'{$usuario->getTipo()}'"
                 . ",'{$usuario->getPhone1()}'"
@@ -26,6 +25,7 @@ class UsuarioDao {
                 . ",'{$usuario->getCity()}'"
                 . ",'{$usuario->getProvince()}'"
                 . ",'{$usuario->getCountry()}'"
+                . ",'{$usuario->getAvatar()}'"
                 . ",'{$usuario->getstatus()}'"
                 . ")";
 		return BD::getInstance()->sqlEjecutar($stSql);
@@ -59,16 +59,17 @@ class UsuarioDao {
                 . ",us_city='{$usuario->getCity()}'"
                 . ",us_province='{$usuario->getProvince()}'"
                 . ",us_country='{$usuario->getCountry()}'"
+                . ",us_avatar='{$usuario->getAvatar()}'"
                 . ",us_status='{$usuario->getStatus()}'"
                        ;
         $stSql .= " Where  us_cod='{$usuario->getCod()}'"
                        ;
         return BD::getInstance()->sqlEjecutar($stSql);
    }
-   public static function sqlCargar( $mail)
+   public static function sqlCargar( $cod)
    {
         $stSql =  "select *  from  usuario ";
-        $stSql .= " Where  us_mail ='{$mail}'"
+        $stSql .= " Where  us_cod ='{$cod}'"
                           ;
         $resultado= BD::getInstance()->sqlSelect($stSql);
   //if(!$resultado) return null;
@@ -89,6 +90,7 @@ class UsuarioDao {
           ,$fila["us_city"]
           ,$fila["us_province"]
           ,$fila["us_country"]
+          ,$fila["us_avatar"]
           ,$fila["us_status"]);
         return $usuarioAux;
    }
@@ -129,6 +131,7 @@ class UsuarioDao {
           ,$fila["us_city"]
           ,$fila["us_province"]
           ,$fila["us_country"]
+          ,$fila["us_avatar"]
           ,$fila["us_status"]);
         return $usuarioAux;
    }
@@ -156,6 +159,7 @@ class UsuarioDao {
           ,$fila["us_city"]
           ,$fila["us_province"]
           ,$fila["us_country"]
+          ,$fila["us_avatar"]
           ,$fila["us_status"]);
         return $usuarioAux;
    }
@@ -179,8 +183,17 @@ class UsuarioDao {
         $usuario->setCity($fila["us_city"]);
         $usuario->setProvince($fila["us_province"]);
         $usuario->setCountry($fila["us_country"]);
+        $usuario->setAvatar($fila["us_avatar"]);
         $usuario->setStatus($fila["us_status"]);
         return true;						  
    }
+
+   public static function sqlTodo()
+   {   //$bd=new BD();
+       
+       $misRegistros= BD::getInstance()->sqlSelectTodo("SELECT * FROM `usuario`");
+       return $misRegistros;
+   }
+
 }
 ?>
