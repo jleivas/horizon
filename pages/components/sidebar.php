@@ -50,7 +50,7 @@ $bg_sp=buildPath();
             <div class="collapse" id="ui-config">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item">
-                  <a class="nav-link" href="pages/config/usuarios.php">Usuarios</a>
+                  <a class="nav-link" href="<?php echo $bg_sp;?>pages/config/usuarios.php">Usuarios</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="pages/ui-features/typography.html">Empresas</a>
