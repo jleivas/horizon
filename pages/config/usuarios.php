@@ -172,7 +172,7 @@ function buildPath(){
                           if($tipo == 5){
                             ?>
                             <mark class="bg-dark text-white">Cliente</mark>
-                            <?php
+                          <?php
                           }
                           ?>
 

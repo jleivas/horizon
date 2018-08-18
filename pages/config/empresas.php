@@ -7,7 +7,12 @@ $sideBar = "..".$separator."components".$separator."sidebar.php";
 $footer = "..".$separator."components".$separator."footer.php";
 $title = "..".$separator."components".$separator."title.php";
 /***************************************************** */
-
+if (!isset($rootDir)){
+  $rootDir = $_SERVER['DOCUMENT_ROOT']."/horizon";
+    require_once($rootDir."/private/dao/CompanyDao.php");
+    require_once($rootDir."/private/dao/UsuarioDao.php");
+    $datos1=CompanyDao::sqlTodo();
+} 
 function buildPath(){
   $domain =  'http://'.$_SERVER['HTTP_HOST'];
   $subdomain = $_SERVER['PHP_SELF'];
@@ -118,84 +123,59 @@ function buildPath(){
                         </tr>
                       </thead>
                       <tbody class="buscar">
+                      <?php
+                        foreach($datos1 as $fila) 
+                        {
+                      ?>
                         <tr>
                           <td>
-                            17665703-0
+                          <?php echo $fila['cm_cod'];?>
                           </td>
                           <td>
-                            Softdirex
+                          <?php echo $fila['cm_name'];?>
                           </td>
                           <td>
-                            Jorge Leiva
+                          <?php $loadUser = UsuarioDao::sqlCargar($fila['user_us_cod']);
+                                echo $loadUser->getName();
+                          ?>
                           </td>
                           <td>
+                            <?php
+                            if($fila['cm_status']==1){
+                              ?>
                             <div class="btn-group dropdown">
                               <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Administrar
                               </button>
                               <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="modificar-empresa?cod=<?php echo $fila['cm_cod'];?>">
                                   <i class="fa fa-reply fa-fw"></i>Modificar</a>
                                 <a class="dropdown-item" href="lugares">
                                   <i class="fa fa-reply fa-fw"></i>Ver lugares</a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="eliminar-empresa?cod=<?php echo $fila['cm_cod'];?>">
                                   <i class="fa fa-history fa-fw"></i>Eliminar</a>
                               </div>
                             </div>
-                          </td>
-                        </tr>
-                        <tr>
-                        <td>
-                            71727272-0
-                          </td>
-                          <td>
-                            Valker
-                          </td>
-                          <td>
-                            Ricardo N.
-                          </td>
-                          <td>
+                              <?php
+                            }else{
+                              ?>
                             <div class="btn-group dropdown">
-                              <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Administrar
+                              <button type="button" class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Eliminada
                               </button>
                               <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-reply fa-fw"></i>Modificar</a>
-                                  <a class="dropdown-item" href="#">
-                                  <i class="fa fa-reply fa-fw"></i>Ver detalles</a>
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-history fa-fw"></i>Eliminar</a>
+                                <a class="dropdown-item" href="eliminar-empresa?cod=<?php echo $fila['cm_cod'];?>&st=1">
+                                  <i class="fa fa-history fa-fw"></i>Restaurar</a>
                               </div>
                             </div>
+                              <?php
+                            }
+                            ?>
                           </td>
                         </tr>
-                        <tr>
-                        <td>
-                            22020192-0
-                          </td>
-                          <td>
-                            Cimenta
-                          </td>
-                          <td>
-                            Juan Silva
-                          </td>
-                          <td>
-                            <div class="btn-group dropdown">
-                              <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Administrar
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-reply fa-fw"></i>Modificar</a>
-                                  <a class="dropdown-item" href="#">
-                                  <i class="fa fa-reply fa-fw"></i>Ver detalles</a>
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-history fa-fw"></i>Eliminar</a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
+                        <?php
+                        }
+                        ?>
                       </tbody>
                     </table>
                   </div>

@@ -79,18 +79,35 @@ function buildPath(){
                   <p class="card-description">
                     <div class="form-group">
                     Crear nueva Evaluación
-                      <form action="nueva-evaluacion"
-                            name="form1"
-                            id="form1"
-                            method="post"> 
-                            <input type="button" 
-                            class="btn btn-success btn-rounded btn-fw"
-                            value="Crear evaluación" 
-                            id="nuevo"
-                            name="nuevo" 
-                            onclick= "document.form1.action = 'nueva-evaluacion'; 
-                            document.form1.submit()" />
-                      </form>
+                    <div class="row">
+                        <div class="col-md-2">
+                          <form action="nueva-evaluacion"
+                                name="form1"
+                                id="form1"
+                                method="post"> 
+                                <input type="button" 
+                                class="btn btn-success btn-rounded btn-fw"
+                                value="Crear evaluacion" 
+                                id="nuevo"
+                                name="nuevo" 
+                                onclick= "document.form1.action = 'nueva-evaluacion'; 
+                                document.form1.submit()" />
+                          </form>
+                        </div>
+                        <div class="col-md-8"></div>
+                        <div class="col-md-2">
+                          <form action="lugares"
+                                name="form2"
+                                id="form2"
+                                method="post"> 
+                                <input type="button" 
+                                class="btn btn-warning btn-rounded btn-fw"
+                                value="Volver" 
+                                onclick= "document.form2.action = 'lugares'; 
+                                document.form2.submit()" />
+                          </form>
+                        </div>
+                      </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group">

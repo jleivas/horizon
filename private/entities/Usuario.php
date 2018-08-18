@@ -74,6 +74,15 @@
 		{
 			$this->mail = $mail;
 		}	
+
+		public function getEmail()
+		{
+			return $this->mail;
+		}		
+		public function setEmail($mail)
+		{
+			$this->mail = $mail;
+		}	
 		
 		public function getWeb()
 		{
