@@ -39,9 +39,13 @@ Horizon is released under MIT license. Horizon is a free Bootstrap 4 admin templ
 
 2 - Para ejecutar el proyecto es necesario descargar WampServer: http://www.wampserver.com/en/
 
-3 - Luego de instalar Wampserver, descomprimir el archivo Zip en la carpeta C:/wamp64/www o C:/wamp/www
+3- Abrir PhpMyAdmin y crear nueva base de datos con nombre cps
 
-4 - Ejecutar Wampserver, esperar a que el icono se torne de color verde
+4- Importar base de datos desde archivo sql enviado por correo electrónico
 
-5 - Abrir el navegador e ir a la dirección localhost/horizon
+5 - Luego de instalar Wampserver, descomprimir el archivo Zip en la carpeta C:/wamp64/www o C:/wamp/www
+
+6 - Ejecutar Wampserver, esperar a que el icono se torne de color verde
+
+7 - Abrir el navegador e ir a la dirección localhost/horizon
 
