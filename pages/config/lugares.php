@@ -7,7 +7,19 @@ $sideBar = "..".$separator."components".$separator."sidebar.php";
 $footer = "..".$separator."components".$separator."footer.php";
 $title = "..".$separator."components".$separator."title.php";
 /***************************************************** */
-
+if (!isset($rootDir)){
+  $rootDir = $_SERVER['DOCUMENT_ROOT']."/horizon";
+    require_once($rootDir."/private/dao/CompanyDao.php");
+    require_once($rootDir."/private/dao/UsuarioDao.php");
+    require_once($rootDir."/private/dao/LugarDao.php");
+    
+} 
+$codEmpresa="";
+  if(isset($_GET['cod'])){
+    $codEmpresa=$_GET['cod'];
+  }
+  $datos1=LugarDao::sqlByCompany($codEmpresa);
+  $loadCompany = CompanyDao::sqlCargar($codEmpresa);
 function buildPath(){
   $domain =  'http://'.$_SERVER['HTTP_HOST'];
   $subdomain = $_SERVER['PHP_SELF'];
@@ -74,7 +86,7 @@ function buildPath(){
         <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Empresa Softdirex</h4>
+                  <h4 class="card-title">Empresa <?php echo $loadCompany->getName();?></h4>
                   
                   <p class="card-description">
                     <div class="form-group">
@@ -85,6 +97,7 @@ function buildPath(){
                                 name="form1"
                                 id="form1"
                                 method="post"> 
+                                <input type="hidden" id="cod" name="cod" value="<?php echo $loadCompany->getCod() ?>"/>
                                 <input type="button" 
                                 class="btn btn-success btn-rounded btn-fw"
                                 value="Crear sede" 
@@ -141,108 +154,76 @@ function buildPath(){
                         </tr>
                       </thead>
                       <tbody class="buscar">
+                      <?php
+                        foreach($datos1 as $fila) 
+                        {
+                      ?>
                         <tr>
                           <td>
-                            Bodega
+                          <?php echo $fila['pl_name'];?>
                           </td>
                           <td>
-                            Uno norte 130
+                          <?php echo $fila['pl_address'];?>
                           </td>
                           <td>
-                            Paine
+                          <?php echo $fila['pl_city'];?>
                           </td>
                           <td>
-                            Jorge Leiva
+                          <?php 
+                          $loadUser = UsuarioDao::sqlCargar($fila['cliente_us_cod']);
+                          if($loadUser != null){
+                            echo $loadUser->getName();
+                          }
+                          
+                          ?>
                           </td>
                           <td>
-                            Pedro Fuentes
+                          <?php 
+                          $loadUser = UsuarioDao::sqlCargar($fila['auditor_us_cod']);
+                          if($loadUser != null){
+                            echo $loadUser->getName();
+                          }
+                          ?>
                           </td>
                           <td>
+                              <?php
+                              if($fila['pl_status']==1){
+                              ?>
                             <div class="btn-group dropdown">
                               <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Administrar
                               </button>
                               <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="modificar-sede?id=<?php echo $fila['pl_id'];?>">
                                   <i class="fa fa-reply fa-fw"></i>Modificar</a>
                                 <a class="dropdown-item" href="evaluaciones">
                                   <i class="fa fa-reply fa-fw"></i>Evaluaciones</a>
                                   <a class="dropdown-item" href="#">
                                   <i class="fa fa-reply fa-fw"></i>Crear auditoria</a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="eliminar-lugar?id=<?php echo $fila['pl_id'];?>">
                                   <i class="fa fa-history fa-fw"></i>Eliminar</a>
                               </div>
                             </div>
+                            <?php
+                              }else{
+                                ?>
+                                <div class="btn-group dropdown">
+                                  <button type="button" class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Eliminada
+                                  </button>
+                                  <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="eliminar-lugar?id=<?php echo $fila['pl_id'];?>&st=1">
+                                      <i class="fa fa-history fa-fw"></i>Restaurar</a>
+                                  </div>
+                                </div>
+                                  <?php
+                                }
+                                ?>
                           </td>
                         </tr>
-                        <tr>
-                        <td>
-                            Oficina
-                          </td>
-                          <td>
-                            Teatinos 333
-                          </td>
-                          <td>
-                            Santiago
-                          </td>
-                          <td>
-                            Jorge Leiva
-                          </td>
-                          <td>
-                            Pedro Fuentes
-                          </td>
-                          <td>
-                            <div class="btn-group dropdown">
-                              <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Administrar
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-reply fa-fw"></i>Modificar</a>
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-reply fa-fw"></i>Evaluaciones</a>
-                                  <a class="dropdown-item" href="#">
-                                  <i class="fa fa-reply fa-fw"></i>Crear auditoria</a>
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-history fa-fw"></i>Eliminar</a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            Sede La Serena
-                          </td>
-                          <td>
-                            Las Bugambilias 3232
-                          </td>
-                          <td>
-                            La Serena
-                          </td>
-                          <td>
-                            Luis Perez
-                          </td>
-                          <td>
-                            Hugo Ramirez
-                          </td>
-                          <td>
-                            <div class="btn-group dropdown">
-                              <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Administrar
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-reply fa-fw"></i>Modificar</a>
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-reply fa-fw"></i>Evaluaciones</a>
-                                  <a class="dropdown-item" href="#">
-                                  <i class="fa fa-reply fa-fw"></i>Crear auditoria</a>
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-history fa-fw"></i>Eliminar</a>
-                              </div>
-                            </div>
-                          </td>
-                        </tr>
+                        <?php
+                        }
+                        ?>
                       </tbody>
                     </table>
                   </div>

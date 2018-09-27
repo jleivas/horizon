@@ -150,8 +150,8 @@ function buildPath(){
                               <div class="dropdown-menu">
                                 <a class="dropdown-item" href="modificar-empresa?cod=<?php echo $fila['cm_cod'];?>">
                                   <i class="fa fa-reply fa-fw"></i>Modificar</a>
-                                <a class="dropdown-item" href="lugares">
-                                  <i class="fa fa-reply fa-fw"></i>Ver lugares</a>
+                                <a class="dropdown-item" href="lugares?cod=<?php echo $fila['cm_cod'];?>">
+                                  <i class="fa fa-reply fa-fw"></i>Ver sedes</a>
                                 <a class="dropdown-item" href="eliminar-empresa?cod=<?php echo $fila['cm_cod'];?>">
                                   <i class="fa fa-history fa-fw"></i>Eliminar</a>
                               </div>

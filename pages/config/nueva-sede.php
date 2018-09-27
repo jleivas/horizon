@@ -7,20 +7,21 @@ $navBar = "..".$separator."components".$separator."navbar.php";
 $sideBar = "..".$separator."components".$separator."sidebar.php";
 $footer = "..".$separator."components".$separator."footer.php";
 $title = "..".$separator."components".$separator."title.php";
+/***************************************************** */
 if (!isset($rootDir)){
     $rootDir = $_SERVER['DOCUMENT_ROOT']."/horizon";
       require_once($rootDir."/private/dao/UsuarioDao.php");
       require_once($rootDir."/private/dao/CompanyDao.php");
-      $users=UsuarioDao::sqlTodo();
+      require_once($rootDir."/private/dao/LugarDao.php");
+      $clients=UsuarioDao::sqlTodo();
+      $audits=UsuarioDao::sqlTodo();
   } 
 
-  $cod="";
-  if(isset($_GET['cod'])){
-    $cod=$_GET['cod'];
+  $codEmpresa="";
+  if(isset($_POST['cod'])){
+    $codEmpresa=$_POST['cod'];
   }
-  $load = CompanyDao::sqlCargar($cod);
-  
-/***************************************************** */
+  $loadCompany = CompanyDao::sqlCargar($codEmpresa);
 function buildPath(){
   $domain =  'http://'.$_SERVER['HTTP_HOST'];
   $subdomain = $_SERVER['PHP_SELF'];
@@ -76,24 +77,59 @@ function buildPath(){
           <div class="col-md-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Empresa</h4>
+                  <h4 class="card-title">Datos sede de empresa <?php echo $loadCompany->getName();?></h4>
                   <p class="card-description">
-                    Formulario de registro para nuevas empresas
+                    Formulario de registro para nuevas sedes
                   </p>
-                  <form  action="updateCompany"  method="post">
-                    <div class="form-group">
-                      <label for="cod">Dni o Rut</label>
-                      <input type="text" class="form-control" name="cod" id="cod" value="<?php echo $load->getCod();?>" readonly="readonly">
-                    </div>
+                  <form  action="addLugar"  method="post">
                     <div class="form-group">
                       <label for="name">Nombre</label>
-                      <input type="text" class="form-control" name="name" id="name" value="<?php echo $load->getName();?>" required>
+                      <input type="text" class="form-control" name="name" id="name" placeholder="Nombre" required>
+                      <input style="visibility:hidden" type="text" class="form-control" name="company" id="company" value="<?php echo $loadCompany->getCod();?>">
+                    </div>
+                    <div class="form-group row">
+                          <label class="col-sm-6 col-form-label"><strong>Descripción</strong></label>
+                          <div class="col-sm-10">
+                            <textarea id="desc" name="desc" rows="4" cols="40"></textarea>
+                          </div>
                     </div>
                     <div class="form-group">
-                    <label for="type">Encargado</label>
-                    <select class="form-control form-control-lg" name="user" id="user">
+                      <label for="movil">Móvil</label>
+                      <input type="text" class="form-control" name="movil" id="movil" placeholder="Número de teléfono">
+                    </div>
+                    <div class="form-group">
+                      <label for="fijo">Fijo</label>
+                      <input type="text" class="form-control" name="fijo" id="fijo" placeholder="Número de teléfono">
+                    </div>
+                    <div class="form-group">
+                      <label for="email">Email</label>
+                      <input type="email" class="form-control" name="email" id="email" placeholder="Correo electrónico" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="web">Sitio web</label>
+                      <input type="text" class="form-control" name="web" id="web" placeholder="Dirección de sitio web">
+                    </div>
+                    <div class="form-group">
+                      <label for="address">Dirección</label>
+                      <input type="text" class="form-control" name="address" id="address" placeholder="Dirección de domicilio" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="city">Ciudad</label>
+                      <input type="text" class="form-control" name="city" id="city" placeholder="Ciudad" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="province">Provincia</label>
+                      <input type="text" class="form-control" name="province" id="province" placeholder="Provincia" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="country">País</label>
+                      <input type="text" class="form-control" name="country"  id="country" placeholder="País" required>
+                    </div>
+                    <div class="form-group">
+                    <label for="type">Responsable</label>
+                    <select class="form-control form-control-lg" name="user1" id="user1">
                     <?php
-                        foreach($users as $fila) 
+                        foreach($clients as $fila) 
                         {
                     ?>
                       <option value="<?php echo $fila['us_cod'] ?>"><?php echo $fila['us_name'] ?></option>
@@ -101,24 +137,26 @@ function buildPath(){
                         } 
                     ?>
                     </select>
-                    <script
-                        src="https://code.jquery.com/jquery-3.2.0.min.js"
-                        integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I="
-                        crossorigin="anonymous">
-                    </script>
-                    <script>
-                        //Esta es la función que una vez se cargue el documento será gatillada.
-                        $(function(){
-                            $("#user").val('<?php echo $load->getUser();?>')
-                        });
-                    </script>
                     </div>
                     <div class="form-group">
-                    <input type="submit" value="Modificar" class="btn btn-info mr-2">
+                    <label for="type">Auditor</label>
+                    <select class="form-control form-control-lg" name="user2" id="user2">
+                    <?php
+                        foreach($audits as $fila) 
+                        {
+                    ?>
+                      <option value="<?php echo $fila['us_cod'] ?>"><?php echo $fila['us_name'] ?></option>
+                    <?php
+                        } 
+                    ?>
+                    </select>
+                    </div>
+                    <div class="form-group">
+                    <input type="submit" value="Crear" class="btn btn-success mr-2">
                     </div>
                   </form>
                   <div class="form-group">
-                  <form action="empresas"
+                  <form action="lugares"
                             name="form1"
                             id="form1"
                             method="post"> 
@@ -127,7 +165,7 @@ function buildPath(){
                             value="Cancelar" 
                             id="nuevo"
                             name="nuevo" 
-                            onclick= "document.form1.action = 'empresas'; 
+                            onclick= "document.form1.action = 'javascript:history.go(-1);'; 
                             document.form1.submit()" />
                   </form>
                   </div>
