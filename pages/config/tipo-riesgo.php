@@ -7,7 +7,11 @@ $sideBar = "..".$separator."components".$separator."sidebar.php";
 $footer = "..".$separator."components".$separator."footer.php";
 $title = "..".$separator."components".$separator."title.php";
 /***************************************************** */
-
+if (!isset($rootDir)){
+  $rootDir = $_SERVER['DOCUMENT_ROOT']."/horizon";
+    require_once($rootDir."/private/dao/TipoRiesgoDao.php");
+    $datos1=TipoRiesgoDao::sqlTodo();
+} 
 function buildPath(){
   $domain =  'http://'.$_SERVER['HTTP_HOST'];
   $subdomain = $_SERVER['PHP_SELF'];
@@ -74,88 +78,41 @@ function buildPath(){
         <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Evaluaciones</h4>
+                  <h4 class="card-title">Tipos de riesgo registrados en el sistema</h4>
                   
                   <p class="card-description">
-                    <div class="form-group">
-                    Crear nueva Evaluación
+                  <div class="form-group">
+                    Crear nuevo tipo de riesgo
                     <div class="row">
                         <div class="col-md-2">
-                          <form action="nueva-evaluacion"
-                                name="form1"
-                                id="form1"
-                                method="post"> 
-                                <input type="button" 
-                                class="btn btn-success btn-rounded btn-fw"
-                                value="Crear evaluacion" 
-                                id="nuevo"
-                                name="nuevo" 
-                                onclick= "document.form1.action = 'nueva-evaluacion'; 
-                                document.form1.submit()" />
-                          </form>
-                        </div>
-
-                        <div class="col-md-2"></div>
-                        
-                        <div class="col-md-2">
-                          <form action="tipo-riesgo"
-                                name="form3"
-                                id="form3"
-                                method="post"> 
-                                <input type="button" 
-                                class="btn btn-info btn-rounded btn-fw"
-                                value="Tipos de riesgo" 
-                                id="tipo-riesgo"
-                                name="tipo-riesgo" 
-                                onclick= "document.form3.action = 'tipo-riesgo'; 
-                                document.form3.submit()" />
-                          </form>
-                        </div>
-
-                        <div class="col-md-2">
-                          <form action="causas"
-                                name="form4"
-                                id="form4"
-                                method="post"> 
-                                <input type="button" 
-                                class="btn btn-info btn-rounded btn-fw"
-                                value="Causa o vector" 
-                                id="causas"
-                                name="causas" 
-                                onclick= "document.form4.action = 'causas'; 
-                                document.form4.submit()" />
-                          </form>
-                        </div>
-
-                        <div class="col-md-2">
-                          <form action="consecuencias"
-                                name="form5"
-                                id="form5"
-                                method="post"> 
-                                <input type="button" 
-                                class="btn btn-info btn-rounded btn-fw"
-                                value="Consecuencias" 
-                                id="consecuencias"
-                                name="consecuencias" 
-                                onclick= "document.form5.action = 'consecuencias'; 
-                                document.form5.submit()" />
-                          </form>
-                        </div>
-                        
-                        <div class="col-md-2">
-                          <form action="lugares"
+                      <form action="nuevo-tipo-riesgo"
+                            name="form1"
+                            id="form1"
+                            method="post"> 
+                            <input type="button" 
+                            class="btn btn-success btn-rounded btn-fw"
+                            value="Crear nuevo elemento" 
+                            id="nuevo"
+                            name="nuevo" 
+                            onclick= "document.form1.action = 'nuevo-tipo-riesgo'; 
+                            document.form1.submit()" />
+                      </form>
+                      </div>
+                      <div class="col-md-8"></div>
+                       <div class="col-md-2">
+                          <form action="return"
                                 name="form2"
                                 id="form2"
                                 method="post"> 
                                 <input type="button" 
                                 class="btn btn-warning btn-rounded btn-fw"
                                 value="Volver" 
-                                onclick= "document.form2.action = 'javascript:history.go(-1);'; 
+                                onclick= "document.form2.action = 'evaluaciones'; 
                                 document.form2.submit()" />
                           </form>
                         </div>
-                      </div>
-                    </div>
+                        </div>
+                        </div>
                     <div class="form-group">
                         <div class="input-group">
                           <div class="input-group-prepend">
@@ -170,92 +127,55 @@ function buildPath(){
                       <thead>
                         <tr>
                           <th>
-                            Item
-                          </th>
-                          <th>
-                            Blanco/Objetivo
-                          </th>
-                          <th>
-                            Zona
-                          </th>
-                          <th>
                             Tipo de riesgo
-                          </th>
-                          <th>
-                            Causa/Vector
-                          </th>
-                          <th>
-                            <small><strong>Atracción</strong></small>
-                          </th>
-                          <th>
-                            <small><strong>Exposición</strong></small>
-                          </th>
-                          <th>
-                            <small><strong>Debilidad</strong></small>
-                          </th>
-                          <th>
-                            <small><strong>Consecuencias</strong></small>
-                          </th>
-                          <th>
-                            Ponderación
-                          </th>
-                          <th>
-                            Probabilidad
                           </th>
                           <th></th>
                         </tr>
                       </thead>
                       <tbody class="buscar">
+                      <?php
+                        foreach($datos1 as $fila) 
+                        {
+                      ?>
                         <tr>
                           <td>
-                            Item 1
+                          <?php echo $fila['tp_name'];?>
                           </td>
                           <td>
-                            Caja Fuerte
-                          </td>
-                          <td>
-                            Oficina gerente
-                          </td>
-                          <td>
-                            Riesgo puro
-                          </td>
-                          <td>
-                            Asalto
-                          </td>
-                          <td>
-                            4
-                          </td>
-                          <td>
-                            3
-                          </td>
-                          <td>
-                            1
-                          </td>
-                          <td>
-                            <div class="col-2">Perdida/Sustracción de productos</div>
-                          </td>
-                          <td>
-                            3,0
-                          </td>
-                          <td>
-                            Medio
-                          </td>
-                          <td>
+                            <?php
+                            if($fila['tp_status']==1){
+                              ?>
                             <div class="btn-group dropdown">
                               <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Administrar
                               </button>
                               <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="modificar-tipo-riesgo?id=<?php echo $fila['tp_id'];?>">
                                   <i class="fa fa-reply fa-fw"></i>Modificar</a>
-                                  <a class="dropdown-item" href="correcciones">
-                                  <i class="fa fa-reply fa-fw"></i>Correcciones</a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="eliminar-tipo-riesgo?id=<?php echo $fila['tp_id'];?>">
                                   <i class="fa fa-history fa-fw"></i>Eliminar</a>
                               </div>
                             </div>
+                              <?php
+                            }else{
+                              ?>
+                            <div class="btn-group dropdown">
+                              <button type="button" class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Eliminado
+                              </button>
+                              <div class="dropdown-menu">
+                                <a class="dropdown-item" href="eliminar-tipo-riesgo?id=<?php echo $fila['tp_id'];?>&st=1">
+                                  <i class="fa fa-history fa-fw"></i>Restaurar</a>
+                              </div>
+                            </div>
+                              <?php
+                            }
+                            ?>
                           </td>
                         </tr>
+                        <?php
+                        }
+                        ?>
                       </tbody>
                     </table>
                   </div>
