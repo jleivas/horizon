@@ -1,10 +1,10 @@
 <?php
 /* Variables de uso general                            */
 $separator = "/";
-$navBar = $separator."pages".$separator."components".$separator."navbar.php";
-$sideBar = $separator."pages".$separator."components".$separator."sidebar.php";
-$footer = $separator."pages".$separator."components".$separator."footer.php";
-$title = $separator."pages".$separator."components".$separator."title.php";
+$navBar = "pages".$separator."components".$separator."navbar.php";
+$sideBar = "pages".$separator."components".$separator."sidebar.php";
+$footer = "pages".$separator."components".$separator."footer.php";
+$title = "pages".$separator."components".$separator."title.php";
 /***************************************************** */
 
 function buildPath(){

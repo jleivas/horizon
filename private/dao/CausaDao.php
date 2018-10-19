@@ -99,5 +99,11 @@ class CausaDao {
        return $misRegistros;
    }
 
+   public static function sqlListar()
+   {   
+       $misRegistros= BD::getInstance()->sqlSelectTodo("SELECT * FROM `causa` WHERE ca_status = 1");
+       return $misRegistros;
+   }
+
 }
 ?>

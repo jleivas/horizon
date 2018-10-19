@@ -99,5 +99,11 @@ class ConsecuenciaDao {
        return $misRegistros;
    }
 
+   public static function sqlListar()
+   {   
+       $misRegistros= BD::getInstance()->sqlSelectTodo("SELECT * FROM `result` WHERE re_status = 1");
+       return $misRegistros;
+   }
+
 }
 ?>
