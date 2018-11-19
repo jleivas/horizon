@@ -56,7 +56,16 @@ $bg_sp=buildPath();
                   <a class="nav-link" href="<?php echo $bg_sp;?>pages/config/empresas">Empresas</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="<?php echo $bg_sp;?>pages/config/evaluaciones">Evaluaciones</a>
+                  <a class="nav-link" href="#">Mis Evaluaciones</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="<?php echo $bg_sp;?>pages/config/tipo-riesgo">Tipos de Riesgo</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="<?php echo $bg_sp;?>pages/config/causas">Causa o Vector</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="<?php echo $bg_sp;?>pages/config/consecuencias">Consecuencias</a>
                 </li>
               </ul>
             </div>

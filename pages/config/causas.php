@@ -107,7 +107,7 @@ function buildPath(){
                                 <input type="button" 
                                 class="btn btn-warning btn-rounded btn-fw"
                                 value="Volver" 
-                                onclick= "document.form2.action = 'evaluaciones'; 
+                                onclick= "document.form2.action = 'javascript:history.go(-1)'; 
                                 document.form2.submit()" />
                           </form>
                         </div>

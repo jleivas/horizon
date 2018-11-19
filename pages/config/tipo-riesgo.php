@@ -11,7 +11,8 @@ if (!isset($rootDir)){
   $rootDir = $_SERVER['DOCUMENT_ROOT']."/horizon";
     require_once($rootDir."/private/dao/TipoRiesgoDao.php");
     $datos1=TipoRiesgoDao::sqlTodo();
-} 
+}
+
 function buildPath(){
   $domain =  'http://'.$_SERVER['HTTP_HOST'];
   $subdomain = $_SERVER['PHP_SELF'];
@@ -100,16 +101,6 @@ function buildPath(){
                       </div>
                       <div class="col-md-8"></div>
                        <div class="col-md-2">
-                          <form action="return"
-                                name="form2"
-                                id="form2"
-                                method="post"> 
-                                <input type="button" 
-                                class="btn btn-warning btn-rounded btn-fw"
-                                value="Volver" 
-                                onclick= "document.form2.action = 'evaluaciones'; 
-                                document.form2.submit()" />
-                          </form>
                         </div>
                         </div>
                         </div>
