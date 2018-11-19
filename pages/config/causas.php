@@ -100,16 +100,6 @@ function buildPath(){
                       </div>
                       <div class="col-md-8"></div>
                        <div class="col-md-2">
-                          <form action="return"
-                                name="form2"
-                                id="form2"
-                                method="post"> 
-                                <input type="button" 
-                                class="btn btn-warning btn-rounded btn-fw"
-                                value="Volver" 
-                                onclick= "document.form2.action = 'javascript:history.go(-1)'; 
-                                document.form2.submit()" />
-                          </form>
                         </div>
                         </div>
                         </div>
