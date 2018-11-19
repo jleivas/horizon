@@ -82,7 +82,7 @@ function buildPath(){
                     <div class="form-group">
                       <input style="visibility:hidden" type="text" class="form-control" name="id" id="id" value="<?php echo $load->getId();?>">
                       <label for="name">Nombre</label>
-                      <input type="text" class="form-control" name="name" id="name" value="<?php echo $load->getName() ?>" required>
+                      <input type="text" class="form-control" name="name" id="name" value="<?php echo $load->getName() ?>"  minlength="4" maxlength="44" required>
                     </div>
                     <div class="form-group">
                     <input type="submit" value="Modificar" class="btn btn-success mr-2">
