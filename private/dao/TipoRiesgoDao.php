@@ -99,5 +99,11 @@ class TipoRiesgoDao {
        return $misRegistros;
    }
 
+   public static function sqlListar()
+   {   
+       $misRegistros= BD::getInstance()->sqlSelectTodo("SELECT * FROM `tipo_riesgo` WHERE tp_status = 1");
+       return $misRegistros;
+   }
+
 }
 ?>

@@ -7,7 +7,10 @@ $sideBar = "..".$separator."components".$separator."sidebar.php";
 $footer = "..".$separator."components".$separator."footer.php";
 $title = "..".$separator."components".$separator."title.php";
 /***************************************************** */
-
+if (!isset($rootDir)){
+  $rootDir = $_SERVER['DOCUMENT_ROOT']."/horizon";
+    require_once($rootDir."/private/dao/LugarDao.php");
+} 
 function buildPath(){
   $domain =  'http://'.$_SERVER['HTTP_HOST'];
   $subdomain = $_SERVER['PHP_SELF'];
@@ -22,6 +25,24 @@ function buildPath(){
   }
   return $buildPath;
 }
+$idLugar="000";
+$codEmpresa="000";
+if(isset($_GET['cod'])){
+  $idLugar=$_GET['cod'];
+}
+if(isset($_GET['rut'])){
+  $codEmpresa=$_GET['rut'];
+}
+if($idLugar === "000" || $codEmpresa === "000"){
+  ?>
+		<script>
+			alert('Ocurrió un error al cargar el sitio, faltan parámetros.');
+			window.location.href='javascript:history.go(-1);';
+		</script>
+	<?php
+}
+
+$loadPlace = LugarDao::sqlCargar($idLugar);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -74,7 +95,7 @@ function buildPath(){
         <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Evaluaciones</h4>
+                  <h4 class="card-title">Evaluaciones para empresa <?php echo $loadPlace->getName(); ?></h4>
                   
                   <p class="card-description">
                     <div class="form-group">
@@ -84,14 +105,14 @@ function buildPath(){
                           <form action="nueva-evaluacion"
                                 name="form1"
                                 id="form1"
-                                method="post"> 
-                                <input type="button" 
-                                class="btn btn-success btn-rounded btn-fw"
-                                value="Crear evaluacion" 
-                                id="nuevo"
-                                name="nuevo" 
-                                onclick= "document.form1.action = 'nueva-evaluacion'; 
-                                document.form1.submit()" />
+                                method="post">
+                                  <input type="button" 
+                                  class="btn btn-success btn-rounded btn-fw"
+                                  value="Crear evaluacion" 
+                                  id="nuevo"
+                                  name="nuevo" 
+                                  onclick= "document.form1.action = 'nueva-evaluacion?rut=<?php echo $codEmpresa;?>&idPlace=<?php echo $loadPlace->getId();?>'; 
+                                  document.form1.submit()" />
                           </form>
                         </div>
 
@@ -150,7 +171,7 @@ function buildPath(){
                                 <input type="button" 
                                 class="btn btn-warning btn-rounded btn-fw"
                                 value="Volver" 
-                                onclick= "document.form2.action = 'javascript:history.go(-1);'; 
+                                onclick= "document.form2.action = 'lugares?cod=<?php echo $codEmpresa;?>'; 
                                 document.form2.submit()" />
                           </form>
                         </div>

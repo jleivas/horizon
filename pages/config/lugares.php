@@ -196,7 +196,7 @@ function buildPath(){
                               <div class="dropdown-menu">
                                 <a class="dropdown-item" href="modificar-sede?id=<?php echo $fila['pl_id'];?>">
                                   <i class="fa fa-reply fa-fw"></i>Modificar</a>
-                                <a class="dropdown-item" href="evaluaciones">
+                                <a class="dropdown-item" href="evaluaciones?rut=<?php echo $codEmpresa;?>&cod=<?php echo $fila['pl_id'];?>">
                                   <i class="fa fa-reply fa-fw"></i>Evaluaciones</a>
                                   <a class="dropdown-item" href="#">
                                   <i class="fa fa-reply fa-fw"></i>Crear auditoria</a>
