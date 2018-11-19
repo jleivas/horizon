@@ -119,48 +119,15 @@ $loadPlace = LugarDao::sqlCargar($idLugar);
                         <div class="col-md-2"></div>
                         
                         <div class="col-md-2">
-                          <form action="tipo-riesgo"
-                                name="form3"
-                                id="form3"
-                                method="post"> 
-                                <input type="button" 
-                                class="btn btn-info btn-rounded btn-fw"
-                                value="Tipos de riesgo" 
-                                id="tipo-riesgo"
-                                name="tipo-riesgo" 
-                                onclick= "document.form3.action = 'tipo-riesgo'; 
-                                document.form3.submit()" />
-                          </form>
+                        
                         </div>
 
                         <div class="col-md-2">
-                          <form action="causas"
-                                name="form4"
-                                id="form4"
-                                method="post"> 
-                                <input type="button" 
-                                class="btn btn-info btn-rounded btn-fw"
-                                value="Causa o vector" 
-                                id="causas"
-                                name="causas" 
-                                onclick= "document.form4.action = 'causas'; 
-                                document.form4.submit()" />
-                          </form>
+                          
                         </div>
 
                         <div class="col-md-2">
-                          <form action="consecuencias"
-                                name="form5"
-                                id="form5"
-                                method="post"> 
-                                <input type="button" 
-                                class="btn btn-info btn-rounded btn-fw"
-                                value="Consecuencias" 
-                                id="consecuencias"
-                                name="consecuencias" 
-                                onclick= "document.form5.action = 'consecuencias'; 
-                                document.form5.submit()" />
-                          </form>
+                          
                         </div>
                         
                         <div class="col-md-2">

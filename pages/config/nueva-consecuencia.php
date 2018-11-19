@@ -74,7 +74,7 @@ function buildPath(){
                   <form  action="addConsecuencia"  method="post">
                     <div class="form-group">
                       <label for="name">Nombre</label>
-                      <input type="text" class="form-control" name="name" id="name" placeholder="Nombre" required>
+                      <input type="text" class="form-control" name="name" id="name" placeholder="Nombre"  minlength="4" maxlength="44" required>
                     </div>
                     <div class="form-group">
                     <input type="submit" value="Crear" class="btn btn-success mr-2">

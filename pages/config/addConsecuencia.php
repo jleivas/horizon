@@ -7,9 +7,33 @@ $dominio = $_SERVER['HTTP_HOST'];
 	if(isset($_POST['name'])){
 		$name=$_POST['name'];
 	}
+
+	$validate = $name;
+
+	$validate = str_replace(
+        array("\\", "*", "¨", "º", "-", "~",
+             "#", "@", "|", "!", "\"",
+             "·", "$", "%", "&",
+             "(", ")", "?", "'", "¡",
+             "¿", "[", "^", "<code>", "]",
+             "+", "}", "{", "¨", "´",
+             ">", "< ", ";", ",", ":",
+             ".", " "),
+        ' ',
+        $validate
+	);
 	
 	$estado=1;
 	try{
+		if($name != $validate){
+			?>
+				<script>
+					alert('Ocurrió un error al registrar los datos: El nombre ingresado contiene caracteres inválidos.');
+					window.location.href='javascript:history.go(-1);';
+				</script>
+			<?php
+			return;
+		}
 		if(ConsecuenciaDao::sqlExiste($name) > 0){
 			?>
 				<script>
