@@ -14,10 +14,6 @@ if (!isset($rootDir)){
     require_once($rootDir."/private/dao/TipoRiesgoDao.php");
     require_once($rootDir."/private/dao/CausaDao.php");
     require_once($rootDir."/private/dao/ConsecuenciaDao.php");
-    $datos1=EvaluacionDao::sqlTodo();
-    $tipos=TipoRiesgoDao::sqlTodo();
-    $causas=CausaDao::sqlTodo();
-    $consecuencias=ConsecuenciaDao::sqlTodo();
 } 
 function buildPath(){
   $domain =  'http://'.$_SERVER['HTTP_HOST'];
@@ -38,6 +34,7 @@ $codEmpresa="000";
 if(isset($_GET['cod'])){
   $idLugar=$_GET['cod'];
 }
+$datos1=EvaluacionDao::sqlTodoPorLugar($idLugar);
 if(isset($_GET['rut'])){
   $codEmpresa=$_GET['rut'];
 }
@@ -218,6 +215,7 @@ $loadPlace = LugarDao::sqlCargar($idLugar);
                           </td>
                           <td>
                             <?php
+                              $tipos=TipoRiesgoDao::sqlTodo();
                               foreach($tipos as $tp) 
                                 {
                                   if($tp['tp_id'] == $fila['tipo_riesgo_tp_id']){
@@ -227,8 +225,9 @@ $loadPlace = LugarDao::sqlCargar($idLugar);
                             ?>
                           </td>
                           <td>
-                              <?php 
-                                foreach ($causas as $ca) {
+                              <?php
+                                  $causas=CausaDao::sqlTodo();
+                                  foreach ($causas as $ca) {
                                   if($ca['ca_id'] == $fila['causa_ca_id']){
                                     ?>
                                       <?php echo $ca['ca_name']; ?>
@@ -303,7 +302,8 @@ $loadPlace = LugarDao::sqlCargar($idLugar);
                           </td>
                           <td>
                             <?php
-                              foreach($consecuencias as $con) 
+                                $consecuencias=ConsecuenciaDao::sqlTodo(); 
+                                foreach($consecuencias as $con) 
                                 {
                                   if($con['re_id'] == $fila['result_re_id']){
                                     echo $con['re_name']; 
@@ -352,7 +352,7 @@ $loadPlace = LugarDao::sqlCargar($idLugar);
                                 Administrar
                               </button>
                               <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="modificar-evaluacion?idEval=<?php echo $fila['ev_id'];?>&rut=<?php echo $codEmpresa;?>&idPlace=<?php echo $loadPlace->getId();?>">
                                   <i class="fa fa-reply fa-fw"></i>Modificar</a>
                                   <a class="dropdown-item" href="correcciones">
                                   <i class="fa fa-reply fa-fw"></i>Correcciones</a>

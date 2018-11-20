@@ -11,6 +11,7 @@ $title = "..".$separator."components".$separator."title.php";
 
 if (!isset($rootDir)){
     $rootDir = $_SERVER['DOCUMENT_ROOT']."/horizon";
+      require_once($rootDir."/private/dao/EvaluacionDao.php");
       require_once($rootDir."/private/dao/TipoRiesgoDao.php");
       require_once($rootDir."/private/dao/CausaDao.php");
       require_once($rootDir."/private/dao/ConsecuenciaDao.php");
@@ -22,15 +23,26 @@ if (!isset($rootDir)){
 
 $idLugar=0;
 $codEmpresa="000";
+$idEval=0;
 if(isset($_GET['idPlace'])){
     $idLugar=$_GET['idPlace'];
 }
 if(isset($_GET['rut'])){
   $codEmpresa=$_GET['rut'];
 }
+if(isset($_GET['idEval'])){
+    $idEval=$_GET['idEval'];
+}else{
+    ?>
+		<script>
+			alert('Ocurrió un error al cargar el sitio, faltan parámetros.');
+			window.location.href='javascript:history.go(-1);';
+		</script>
+	<?php
+}
 
 if($idLugar === 0 || $codEmpresa === "000"){
-  ?>
+    ?>
 		<script>
 			alert('Ocurrió un error al cargar el sitio, faltan parámetros.');
 			window.location.href='javascript:history.go(-1);';
@@ -41,6 +53,7 @@ if($idLugar === 0 || $codEmpresa === "000"){
 $historyPath = "rut=".$codEmpresa."&cod=".$idLugar;
 
 $loadPlace = LugarDao::sqlCargar($idLugar);
+$eval = EvaluacionDao::sqlCargar($idEval);
 
 function buildPath(){
   $domain =  'http://'.$_SERVER['HTTP_HOST'];
@@ -55,6 +68,16 @@ function buildPath(){
     $buildPath = $buildPath."../";
   }
   return $buildPath;
+}
+
+function getHtmlSelect($num,$value){
+    $sel = "";
+    if($num == $value){
+        $sel = "value='".$num."' selected";
+    }else{
+        $sel = "value='".$num."'";
+    }
+    return $sel;
 }
 ?>
 <!DOCTYPE html>
@@ -93,18 +116,18 @@ function buildPath(){
           <div class="col-md-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Generar nueva evaluación</h4>
+                  <h4 class="card-title">Modificar evaluación</h4>
                   <p class="card-description">
-                    Complete el formulario para generar una nueva evaluación
+                    Actualize los datos del formulario para guardar la información correcta
                   </p>
-                  <form  action="addEvaluacion"  method="post">
+                  <form  action="updateEvaluacion"  method="post">
                     <div class="form-group">
                       <label for="cod">Blanco u objetivo</label>
-                      <input type="text" class="form-control" name="objetivo" id="objetivo" placeholder="Blanco u objetivo" required>
+                      <input type="text" class="form-control" name="objetivo" id="objetivo" value="<?= $eval->getObject()?>" required>
                     </div>
                     <div class="form-group">
                       <label for="name">Zona</label>
-                      <input type="text" class="form-control" name="zona" id="zona" placeholder="Zona" required>
+                      <input type="text" class="form-control" name="zona" id="zona" value="<?= $eval->getZone()?>" required>
                     </div>
                     <div class="form-group">
                       <label for="type">Tipo de riesgo</label>
@@ -112,9 +135,15 @@ function buildPath(){
                         <?php
                             foreach($tipos as $fila) 
                             {
-                        ?>
-                          <option value="<?php echo $fila['tp_id']; ?>"><?php echo $fila['tp_name']; ?></option>
-                        <?php
+                                if($fila['tp_id']==$eval->getIdTipoRiesgo()){
+                                    ?>
+                                    <option value="<?php echo $fila['tp_id']; ?>" selected><?php echo $fila['tp_name']; ?></option>
+                                    <?php
+                                }else{
+                                    ?>
+                                    <option value="<?php echo $fila['tp_id']; ?>"><?php echo $fila['tp_name']; ?></option>
+                                    <?php
+                                }
                             }
                         ?>
                       </select>
@@ -125,9 +154,15 @@ function buildPath(){
                         <?php
                             foreach($causas as $fila) 
                             {
-                        ?>
-                          <option value="<?php echo $fila['ca_id']; ?>"><?php echo $fila['ca_name']; ?></option>
-                        <?php
+                                if($fila['ca_id'] == $eval->getIdCausa()){
+                                    ?>
+                                    <option value="<?php echo $fila['ca_id']; ?>" selected><?php echo $fila['ca_name']; ?></option>
+                                    <?php
+                                }else{
+                                    ?>
+                                    <option value="<?php echo $fila['ca_id']; ?>"><?php echo $fila['ca_name']; ?></option>
+                                    <?php
+                                }
                             }
                         ?>
                       </select>
@@ -135,31 +170,31 @@ function buildPath(){
                     <div class="form-group">
                     <label for="type">Atracción</label>
                     <select class="form-control form-control-lg" name="atr" id="atr">
-                      <option value="1">Muy baja</option>
-                      <option value="2">Baja</option>
-                      <option value="3">Media</option>
-                      <option value="4">Alta</option>
-                      <option value="5">Muy alta</option>
+                      <option <?php echo getHtmlSelect(1,$eval->getAtract()) ?>>Muy baja</option>
+                      <option <?php echo getHtmlSelect(2,$eval->getAtract()) ?>>Baja</option>
+                      <option <?php echo getHtmlSelect(3,$eval->getAtract()) ?>>Media</option>
+                      <option <?php echo getHtmlSelect(4,$eval->getAtract()) ?>>Alta</option>
+                      <option <?php echo getHtmlSelect(5,$eval->getAtract()) ?>>Muy alta</option>
                     </select>
                     </div>
                     <div class="form-group">
                     <label for="type">Exposición</label>
                     <select class="form-control form-control-lg" name="exp" id="exp">
-                      <option value="1">Muy baja</option>
-                      <option value="2">Baja</option>
-                      <option value="3">Media</option>
-                      <option value="4">Alta</option>
-                      <option value="5">Muy alta</option>
+                      <option <?php echo getHtmlSelect(1,$eval->getExp()) ?>>Muy baja</option>
+                      <option <?php echo getHtmlSelect(2,$eval->getExp()) ?>>Baja</option>
+                      <option <?php echo getHtmlSelect(3,$eval->getExp()) ?>>Media</option>
+                      <option <?php echo getHtmlSelect(4,$eval->getExp()) ?>>Alta</option>
+                      <option <?php echo getHtmlSelect(5,$eval->getExp()) ?>>Muy alta</option>
                     </select>
                     </div>
                     <div class="form-group">
                     <label for="type">Debilidad</label>
                     <select class="form-control form-control-lg" name="deb" id="deb">
-                      <option value="1">Muy baja</option>
-                      <option value="2">Baja</option>
-                      <option value="3">Media</option>
-                      <option value="4">Alta</option>
-                      <option value="5">Muy alta</option>
+                      <option <?php echo getHtmlSelect(1,$eval->getDeb()) ?>>Muy baja</option>
+                      <option <?php echo getHtmlSelect(2,$eval->getDeb()) ?>>Baja</option>
+                      <option <?php echo getHtmlSelect(3,$eval->getDeb()) ?>>Media</option>
+                      <option <?php echo getHtmlSelect(4,$eval->getDeb()) ?>>Alta</option>
+                      <option <?php echo getHtmlSelect(5,$eval->getDeb()) ?>>Muy alta</option>
                     </select>
                     </div>
                     <div class="form-group">
@@ -168,13 +203,20 @@ function buildPath(){
                     <?php
                         foreach($consecuencias as $fila) 
                         {
-                    ?>
-                      <option value="<?php echo $fila['re_id']; ?>"><?php echo $fila['re_name']; ?></option>
-                    <?php
+                            if($fila['re_id'] == $eval->getIdResult()){
+                                ?>
+                                <option value="<?php echo $fila['re_id']; ?>" selected><?php echo $fila['re_name']; ?></option>
+                                <?php
+                            }else{
+                                ?>
+                                <option value="<?php echo $fila['re_id']; ?>"><?php echo $fila['re_name']; ?></option>
+                                <?php
+                            }
                         }
                     ?>
                     </select>
                     </div>
+                    <input type="hidden" class="form-control" name="place" id="place" value="<?php echo $loadPlace->getId();?>">
                     <input type="hidden" class="form-control" name="rut" id="rut" value="<?php echo $codEmpresa;?>">
                     <input type="hidden" class="form-control" name="idPlace" id="idPlace" value="<?php echo $idLugar;?>">
                     <div class="form-group">

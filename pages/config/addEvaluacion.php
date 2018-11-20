@@ -5,11 +5,11 @@ $dominio = $_SERVER['HTTP_HOST'];
 
 	$idLugar=0;
 	$codEmpresa="000";
-	if(isset($_GET['idPlace'])){
-		$idLugar=$_GET['idPlace'];
+	if(isset($_POST['idPlace'])){
+		$idLugar=$_POST['idPlace'];
 	}
-	if(isset($_GET['rut'])){
-	$codEmpresa=$_GET['rut'];
+	if(isset($_POST['rut'])){
+	$codEmpresa=$_POST['rut'];
 	}
 
 	if($idLugar === 0 || $codEmpresa === "000"){
@@ -26,14 +26,17 @@ $dominio = $_SERVER['HTTP_HOST'];
 	$objetivo="";
 	if(isset($_POST['objetivo'])){
 		$objetivo=$_POST['objetivo'];
-    }
-    $place="";
-	if(isset($_POST['place'])){
-		$place=$_POST['place'];
+	}
+
+	if(!validaLetras($objetivo)){
+		return;
 	}
 	$zona="";
 	if(isset($_POST['zona'])){
 		$zona=$_POST['zona'];
+	}
+	if(!validaLetras($zona)){
+		return;
 	}
 	$tipo="";
 	if(isset($_POST['tipo'])){
@@ -70,8 +73,8 @@ $dominio = $_SERVER['HTTP_HOST'];
 				</script>
 			<?php
 		}else{
-				$eva = new 	($id, $objetivo,$zona,$tipo,$causa,$atr,
-                $exp,$deb,$result,$place,$estado);
+				$eva = new Evaluacion($id, $objetivo,$zona,$tipo,$causa,$atr,
+                $exp,$deb,$result,$idLugar,$estado);
 				EvaluacionDao::sqlInsert($eva);
 				?>
 					<script>
@@ -90,5 +93,32 @@ $dominio = $_SERVER['HTTP_HOST'];
 		<?php
 	}
 
+	function validaLetras($arg) {
+		$validate = $arg;
 
+		$validate = str_replace(
+			array("\\", "*", "¨", "º", "-", "~",
+				"#", "@", "|", "!", "\"",
+				"·", "$", "%", "&",
+				"(", ")", "?", "'", "¡",
+				"¿", "[", "^", "<code>", "]",
+				"+", "}", "{", "¨", "´",
+				">", "< ", ";", ",", ":",
+				".", " "),
+			' ',
+			$validate
+		);
+		
+		if($arg != $validate){
+			?>
+				<script>
+					alert('Ocurrió un error al registrar los datos: uno de los datos ingresados contiene caracteres inválidos.');
+					window.location.href='javascript:history.go(-1);';
+				</script>
+			<?php
+			return false;
+		}else{
+			return true;
+		}
+	}
 ?>

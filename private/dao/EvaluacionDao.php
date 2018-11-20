@@ -133,6 +133,12 @@ class EvaluacionDao {
         return $misRegistros;
         }
 
+        public static function sqlTodoPorLugar($param)
+        {   
+        $misRegistros= BD::getInstance()->sqlSelectTodo("SELECT * FROM `evaluacion` WHERE place_pl_id = {$param}");
+        return $misRegistros;
+        }
+
         public static function sqlListar()
         {   
         $misRegistros= BD::getInstance()->sqlSelectTodo("SELECT * FROM `evaluacion` WHERE ev_status = 1");
