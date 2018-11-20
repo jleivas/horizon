@@ -10,6 +10,14 @@ $title = "..".$separator."components".$separator."title.php";
 if (!isset($rootDir)){
   $rootDir = $_SERVER['DOCUMENT_ROOT']."/horizon";
     require_once($rootDir."/private/dao/LugarDao.php");
+    require_once($rootDir."/private/dao/EvaluacionDao.php");
+    require_once($rootDir."/private/dao/TipoRiesgoDao.php");
+    require_once($rootDir."/private/dao/CausaDao.php");
+    require_once($rootDir."/private/dao/ConsecuenciaDao.php");
+    $datos1=EvaluacionDao::sqlTodo();
+    $tipos=TipoRiesgoDao::sqlTodo();
+    $causas=CausaDao::sqlTodo();
+    $consecuencias=ConsecuenciaDao::sqlTodo();
 } 
 function buildPath(){
   $domain =  'http://'.$_SERVER['HTTP_HOST'];
@@ -194,39 +202,149 @@ $loadPlace = LugarDao::sqlCargar($idLugar);
                         </tr>
                       </thead>
                       <tbody class="buscar">
+                      <?php
+                        foreach($datos1 as $fila) 
+                        {
+                      ?>
                         <tr>
                           <td>
-                            Item 1
+                            <?php echo $fila['ev_id'];?>
                           </td>
                           <td>
-                            Caja Fuerte
+                            <?php echo $fila['ev_object'];?>
                           </td>
                           <td>
-                            Oficina gerente
+                            <?php echo $fila['ev_zone'];?>
                           </td>
                           <td>
-                            Riesgo puro
+                            <?php
+                              foreach($tipos as $tp) 
+                                {
+                                  if($tp['tp_id'] == $fila['tipo_riesgo_tp_id']){
+                                    echo $tp['tp_name']; 
+                                  }
+                                }
+                            ?>
                           </td>
                           <td>
-                            Asalto
+                              <?php 
+                                foreach ($causas as $ca) {
+                                  if($ca['ca_id'] == $fila['causa_ca_id']){
+                                    ?>
+                                      <?php echo $ca['ca_name']; ?>
+                                    <?php
+                                      }
+                                    
+                                }
+                              ?>
                           </td>
                           <td>
-                            4
+                            <?php
+                              $atraccion = "";
+                              if($fila['ev_atract']==1){
+                                $atraccion = "Muy Baja";
+                              }
+                              if($fila['ev_atract']==2){
+                                $atraccion = "Baja";
+                              }
+                              if($fila['ev_atract']==3){
+                                $atraccion = "Media";
+                              }
+                              if($fila['ev_atract']==4){
+                                $atraccion = "Alta";
+                              }
+                              if($fila['ev_atract']==5){
+                                $atraccion = "Muy Alta";
+                              }
+                              echo $atraccion; 
+                            ?>
                           </td>
                           <td>
-                            3
+                            <?php
+                              $exp = "";
+                              if($fila['ev_exp']==1){
+                                $exp = "Muy Baja";
+                              }
+                              if($fila['ev_exp']==2){
+                                $exp = "Baja";
+                              }
+                              if($fila['ev_exp']==3){
+                                $exp = "Media";
+                              }
+                              if($fila['ev_exp']==4){
+                                $exp = "Alta";
+                              }
+                              if($fila['ev_exp']==5){
+                                $exp = "Muy Alta";
+                              }
+                              echo $exp; 
+                            ?>
                           </td>
                           <td>
-                            1
+                            <?php
+                              $deb = "";
+                              if($fila['ev_deb']==1){
+                                $deb = "Muy Baja";
+                              }
+                              if($fila['ev_deb']==2){
+                                $deb = "Baja";
+                              }
+                              if($fila['ev_deb']==3){
+                                $deb = "Media";
+                              }
+                              if($fila['ev_deb']==4){
+                                $deb = "Alta";
+                              }
+                              if($fila['ev_deb']==5){
+                                $deb = "Muy Alta";
+                              }
+                              echo $deb; 
+                            ?>
                           </td>
                           <td>
-                            <div class="col-2">Perdida/Sustracción de productos</div>
+                            <?php
+                              foreach($consecuencias as $con) 
+                                {
+                                  if($con['re_id'] == $fila['result_re_id']){
+                                    echo $con['re_name']; 
+                                  }
+                                }
+                            ?>
                           </td>
                           <td>
-                            3,0
+                            <?php
+                              $ponderacion = ($fila['ev_atract']*0.5) + ($fila['ev_exp']*0.25) + ($fila['ev_deb']*0.25);
+                              echo number_format($ponderacion,1);
+                            ?>
                           </td>
                           <td>
-                            Medio
+                            <?php
+                              $prob = "";
+                              $color = "btn-success";
+                              if($ponderacion < 1.5){
+                                $prob = "Muy Baja";
+                                $color = "btn-success";
+                              }
+                              if($ponderacion >= 1.5 && $ponderacion < 2.5){
+                                $prob = "Baja";
+                                $color = "btn-success";
+                              }
+                              if($ponderacion >= 2.5 && $ponderacion < 3.5){
+                                $prob = "Media";
+                                $color = "btn-warning";
+                              }
+                              if($ponderacion >= 3.5 && $ponderacion < 4.5){
+                                $prob = "Alta";
+                                $color = "btn-warning";
+                              }
+                              if($ponderacion >= 4.5){
+                                $prob = "Muy Alta";
+                                $color = "btn-danger";
+                              }
+                              ?>
+                              <input type="button" 
+                                class="btn <?php echo $color;?> btn-fw"
+                                value="<?php echo $prob;?>"/>
                           </td>
                           <td>
                             <div class="btn-group dropdown">
@@ -244,6 +362,9 @@ $loadPlace = LugarDao::sqlCargar($idLugar);
                             </div>
                           </td>
                         </tr>
+                      <?php
+                        }
+                      ?>
                       </tbody>
                     </table>
                   </div>

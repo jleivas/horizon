@@ -3,6 +3,26 @@ if (!isset($rootDir)) $rootDir = $_SERVER['DOCUMENT_ROOT']."/horizon";
 require_once($rootDir . "/private/dao/EvaluacionDao.php");
 $dominio = $_SERVER['HTTP_HOST']; 
 
+	$idLugar=0;
+	$codEmpresa="000";
+	if(isset($_GET['idPlace'])){
+		$idLugar=$_GET['idPlace'];
+	}
+	if(isset($_GET['rut'])){
+	$codEmpresa=$_GET['rut'];
+	}
+
+	if($idLugar === 0 || $codEmpresa === "000"){
+	?>
+			<script>
+				alert('Ocurrió un error al cargar el sitio, faltan parámetros.');
+				window.location.href='javascript:history.go(-1);';
+			</script>
+		<?php
+	}
+
+	$historyPath = "rut=".$codEmpresa."&cod=".$idLugar;
+
 	$objetivo="";
 	if(isset($_POST['objetivo'])){
 		$objetivo=$_POST['objetivo'];
@@ -50,13 +70,13 @@ $dominio = $_SERVER['HTTP_HOST'];
 				</script>
 			<?php
 		}else{
-				$eva = new Evaluacion($id, $objetivo,$zona,$tipo,$causa,$atr,
+				$eva = new 	($id, $objetivo,$zona,$tipo,$causa,$atr,
                 $exp,$deb,$result,$place,$estado);
 				EvaluacionDao::sqlInsert($eva);
 				?>
 					<script>
 						alert('Evaluación registrada exitosamente.');
-						window.location.href='usuarios';
+						window.location.href='evaluaciones?<?php echo $historyPath;?>';
 					</script>
 				<?php
 		}
@@ -69,6 +89,6 @@ $dominio = $_SERVER['HTTP_HOST'];
 			</script>
 		<?php
 	}
-}
+
 
 ?>

@@ -104,6 +104,8 @@ function buildPath(){
                     </div>
                     <div class="form-group">
                     <input style="visibility:hidden" type="text" class="form-control" name="place" id="place" value="<?php echo $loadPlace->getId();?>">
+                    <input style="visibility:hidden" type="text" class="form-control" name="rut" id="rut" value="<?php echo $codEmpresa;?>">
+                    <input style="visibility:hidden" type="text" class="form-control" name="idPlace" id="idPlace" value="<?php echo $idLugar;?>">
                       <label for="name">Zona</label>
                       <input type="text" class="form-control" name="zona" id="zona" placeholder="Zona" required>
                     </div>

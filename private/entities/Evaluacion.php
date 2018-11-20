@@ -93,7 +93,7 @@
 			$this->object = $object;
 		}
 
-		public function gstZone($zone)
+		public function setZone($zone)
 		{
 			$this->zone = $zone;
 		}

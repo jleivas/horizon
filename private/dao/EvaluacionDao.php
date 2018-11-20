@@ -2,7 +2,7 @@
 
 if (!isset($rootDir)) $rootDir = $_SERVER['DOCUMENT_ROOT']."/horizon";
 require_once($rootDir . "/private/BD/bd.php");
-require_once($rootDir . "/private/entities/Consecuencia.php");
+require_once($rootDir . "/private/entities/Evaluacion.php");
 class EvaluacionDao {
         public static function sqladdId(){
                 $bd=new BD();
@@ -120,6 +120,11 @@ class EvaluacionDao {
                 $re->setIdPlace($fila["place_pl_id"]);
                 $re->setStatus($fila["ev_status"]);
                 return true;						  
+        }
+        public static function sqlExiste($param)
+        {
+                $stSql = "select * from evaluacion WHERE ev_id = {$param}";
+                return BD::getInstance()->sqlEjecutar($stSql);
         }
 
         public static function sqlTodo()
