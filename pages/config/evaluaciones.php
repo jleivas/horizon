@@ -347,19 +347,37 @@ $loadPlace = LugarDao::sqlCargar($idLugar);
                                 value="<?php echo $prob;?>"/>
                           </td>
                           <td>
-                            <div class="btn-group dropdown">
-                              <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Administrar
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="modificar-evaluacion?idEval=<?php echo $fila['ev_id'];?>&rut=<?php echo $codEmpresa;?>&idPlace=<?php echo $loadPlace->getId();?>">
-                                  <i class="fa fa-reply fa-fw"></i>Modificar</a>
-                                  <a class="dropdown-item" href="correcciones">
-                                  <i class="fa fa-reply fa-fw"></i>Correcciones</a>
-                                <a class="dropdown-item" href="#">
-                                  <i class="fa fa-history fa-fw"></i>Eliminar</a>
-                              </div>
-                            </div>
+                              <?php
+                                if($fila['ev_status'] == 1){
+                                  ?>
+                                    <div class="btn-group dropdown">
+                                    <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Administrar
+                                    </button>
+                                      <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="modificar-evaluacion?idEval=<?php echo $fila['ev_id'];?>&rut=<?php echo $codEmpresa;?>&idPlace=<?php echo $loadPlace->getId();?>">
+                                          <i class="fa fa-reply fa-fw"></i>Modificar</a>
+                                          <a class="dropdown-item" href="correcciones">
+                                          <i class="fa fa-reply fa-fw"></i>Correcciones</a>
+                                        <a class="dropdown-item" href="eliminar-evaluacion?idEval=<?php echo $fila['ev_id'];?>&st=0&rut=<?php echo $codEmpresa;?>&idPlace=<?php echo $loadPlace->getId();?>">
+                                          <i class="fa fa-history fa-fw"></i>Eliminar</a>
+                                      </div>
+                                    </div>
+                                  <?php
+                                }else{
+                                  ?>
+                                    <div class="btn-group dropdown">
+                                      <button type="button" class="btn btn-danger dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Eliminada
+                                      </button>
+                                      <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="eliminar-evaluacion?idEval=<?php echo $fila['ev_id'];?>&st=1&rut=<?php echo $codEmpresa;?>&idPlace=<?php echo $loadPlace->getId();?>">
+                                          <i class="fa fa-history fa-fw"></i>Restaurar</a>
+                                      </div>
+                                    </div>
+                                  <?php
+                                }
+                              ?>
                           </td>
                         </tr>
                       <?php
