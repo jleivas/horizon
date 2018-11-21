@@ -219,8 +219,9 @@ function getHtmlSelect($num,$value){
                     <input type="hidden" class="form-control" name="place" id="place" value="<?php echo $loadPlace->getId();?>">
                     <input type="hidden" class="form-control" name="rut" id="rut" value="<?php echo $codEmpresa;?>">
                     <input type="hidden" class="form-control" name="idPlace" id="idPlace" value="<?php echo $idLugar;?>">
+                    <input type="hidden" class="form-control" name="idEval" id="idEval" value="<?php echo $eval->getId();?>">
                     <div class="form-group">
-                    <input type="submit" value="Crear" class="btn btn-success mr-2">
+                    <input type="submit" value="Modificar" class="btn btn-success mr-2">
                     </div>
                   </form>
                   <div class="form-group">
