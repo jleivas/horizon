@@ -357,7 +357,7 @@ $loadPlace = LugarDao::sqlCargar($idLugar);
                                       <div class="dropdown-menu">
                                         <a class="dropdown-item" href="modificar-evaluacion?idEval=<?php echo $fila['ev_id'];?>&rut=<?php echo $codEmpresa;?>&idPlace=<?php echo $loadPlace->getId();?>">
                                           <i class="fa fa-reply fa-fw"></i>Modificar</a>
-                                          <a class="dropdown-item" href="correcciones">
+                                          <a class="dropdown-item" href="correcciones?idEval=<?php echo $fila['ev_id'];?>&rut=<?php echo $codEmpresa;?>&idPlace=<?php echo $loadPlace->getId();?>">
                                           <i class="fa fa-reply fa-fw"></i>Correcciones</a>
                                         <a class="dropdown-item" href="eliminar-evaluacion?idEval=<?php echo $fila['ev_id'];?>&st=0&rut=<?php echo $codEmpresa;?>&idPlace=<?php echo $loadPlace->getId();?>">
                                           <i class="fa fa-history fa-fw"></i>Eliminar</a>

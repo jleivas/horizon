@@ -1,5 +1,11 @@
 <?php
 /* Variables de uso general                            */
+if (!isset($rootDir)) $rootDir = $_SERVER['DOCUMENT_ROOT']."/horizon";
+require_once($rootDir . "/private/dao/EvaluacionDao.php");
+require_once($rootDir . "/private/dao/TipoRiesgoDao.php");
+require_once($rootDir . "/private/dao/CausaDao.php");
+require_once($rootDir . "/private/dao/ConsecuenciaDao.php");
+require_once($rootDir . "/private/dao/TratamientoRiesgoDao.php");
 $bg_sp=buildPath();
 $separator = "/";
 $navBar = "..".$separator."components".$separator."navbar.php";
@@ -22,6 +28,38 @@ function buildPath(){
   }
   return $buildPath;
 }
+    
+    $id="";
+    if(isset($_GET['idEval'])){
+      $id=$_GET['idEval'];
+    }else{
+        ?>
+			<script>
+				alert('Ocurrió un error al cargar el sitio, faltan parámetros.');
+				window.location.href='javascript:history.go(-1);';
+			</script>
+		<?php
+    }
+    $load=EvaluacionDao::sqlCargar($id);
+
+$idLugar=0;
+	$codEmpresa="000";
+	if(isset($_GET['idPlace'])){
+		$idLugar=$_GET['idPlace'];
+	}
+	if(isset($_GET['rut'])){
+	$codEmpresa=$_GET['rut'];
+	}
+
+	if($idLugar === 0 || $codEmpresa === "000"){
+	?>
+			<script>
+				alert('Ocurrió un error al cargar el sitio, faltan parámetros.');
+				window.location.href='javascript:history.go(-1);';
+			</script>
+		<?php
+  }
+  $historyPath = "rut=".$codEmpresa."&cod=".$idLugar;
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -62,14 +100,14 @@ function buildPath(){
                   <h4 class="card-title">Correcciones</h4>
                   <form class="form-sample">
                     <p class="card-description">
-                      Código de evaluación: 1223
+                      Número de Item de la evaluación: <?php echo $load->getId();?>
                     </p>
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Blanco u Objetivo</label>
                           <div class="col-sm-9">
-                            <input type="text" id="blanco" class="form-control" value = "Caja fuerte"/>
+                            <input type="text" id="blanco" class="form-control" value = "<?= $load->getObject()?>" readonly/>
                           </div>
                         </div>
                       </div>
@@ -77,7 +115,7 @@ function buildPath(){
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Tipo de riesgo</label>
                           <div class="col-sm-9">
-                            <input type="text" id="tipo-riesgo" class="form-control" value ="Riesgo puro" />
+                            <input type="text" id="tipo-riesgo" class="form-control" value ="<?php $tipo = TipoRiesgoDao::sqlCargar($load->getIdTipoRiesgo());echo $tipo->getName();?>" readonly/>
                           </div>
                         </div>
                       </div>
@@ -85,7 +123,7 @@ function buildPath(){
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Causa o Vector</label>
                           <div class="col-sm-9">
-                            <input type="text" id="causa" class="form-control" value = "Asalto"/>
+                            <input type="text" id="causa" class="form-control" value ="<?php $causa = CausaDao::sqlCargar($load->getIdCausa());echo $causa->getName();?>" readonly/>
                           </div>
                         </div>
                       </div>
@@ -93,7 +131,7 @@ function buildPath(){
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Consecuencias inmediatas</label>
                           <div class="col-sm-9">
-                            <input type="text" id="consecuencias" class="form-control" value ="Perdidas / Sustracción de productos" />
+                            <input type="text" id="consecuencias" class="form-control" value ="<?php $result = ConsecuenciaDao::sqlCargar($load->getIdResult());echo $result->getName();?>" readonly />
                           </div>
                         </div>
                       </div>
@@ -103,7 +141,32 @@ function buildPath(){
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Nivel de riesgo</label>
                           <div class="col-sm-9">
-                            <mark class="bg-danger text-white">Muy alto</mark>
+                            <?php
+                              $ponderacion = ($load->getAtract()*0.5) + ($load->getExp()*0.25) + ($load->getDeb()*0.25);
+                              $prob = "";
+                              $color = "bg-success";
+                              if($ponderacion < 1.5){
+                                $prob = "Muy Baja";
+                                $color = "bg-success";
+                              }
+                              if($ponderacion >= 1.5 && $ponderacion < 2.5){
+                                $prob = "Baja";
+                                $color = "bg-success";
+                              }
+                              if($ponderacion >= 2.5 && $ponderacion < 3.5){
+                                $prob = "Media";
+                                $color = "bg-warning";
+                              }
+                              if($ponderacion >= 3.5 && $ponderacion < 4.5){
+                                $prob = "Alta";
+                                $color = "bg-warning";
+                              }
+                              if($ponderacion >= 4.5){
+                                $prob = "Muy Alta";
+                                $color = "bg-danger";
+                              }
+                            ?>
+                            <mark class="<?= $color;?> text-white"><?= $prob;?></mark>
                           </div>
                         </div>
                       </div>
@@ -112,8 +175,12 @@ function buildPath(){
                           <label class="col-sm-3 col-form-label"><strong>Tratamiento del riesgo</strong></label>
                           <div class="col-sm-9">
                             <select class="form-control">
-                              <option>tratamiento</option>
-                              <option>tratamiento</option>
+                          <?php 
+                            $tratamientos = TratamientoRiesgoDao::sqlListar();
+                            foreach ($tratamientos as $fila) {
+                              echo '<option value="'.$fila['tr_id'].'">'.$fila['tr_name'].'</option>';
+                            }
+                          ?>
                             </select>
                           </div>
                         </div>
@@ -255,7 +322,7 @@ function buildPath(){
                             value="Volver" 
                             id="nuevo"
                             name="nuevo" 
-                            onclick= "document.form1.action = 'evaluaciones'; 
+                            onclick= "document.form1.action = 'evaluaciones?<?= $historyPath;?>'; 
                             document.form1.submit()" />
                   </form>
                 </div>
