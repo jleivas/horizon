@@ -67,6 +67,15 @@ $bg_sp=buildPath();
                 <li class="nav-item">
                   <a class="nav-link" href="<?php echo $bg_sp;?>pages/config/consecuencias">Consecuencias</a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="<?php echo $bg_sp;?>pages/config/tratamiento-riesgo">Tratamientos de Riesgo</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="<?php echo $bg_sp;?>pages/config/acciones-correctivas">Acciones Correctivas</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="<?php echo $bg_sp;?>pages/config/condiciones-correctivas">Condiciones Correctivas</a>
+                </li>
               </ul>
             </div>
           </li>
