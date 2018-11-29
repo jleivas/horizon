@@ -6,6 +6,7 @@ require_once($rootDir . "/private/dao/TipoRiesgoDao.php");
 require_once($rootDir . "/private/dao/CausaDao.php");
 require_once($rootDir . "/private/dao/ConsecuenciaDao.php");
 require_once($rootDir . "/private/dao/TratamientoRiesgoDao.php");
+require_once($rootDir . "/private/dao/AccionDao.php");
 $bg_sp=buildPath();
 $separator = "/";
 $navBar = "..".$separator."components".$separator."navbar.php";
@@ -174,13 +175,13 @@ $idLugar=0;
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label"><strong>Tratamiento del riesgo</strong></label>
                           <div class="col-sm-9">
-                            <select class="form-control">
-                          <?php 
-                            $tratamientos = TratamientoRiesgoDao::sqlListar();
-                            foreach ($tratamientos as $fila) {
-                              echo '<option value="'.$fila['tr_id'].'">'.$fila['tr_name'].'</option>';
-                            }
-                          ?>
+                            <select id = "tratamineto" class="form-control">
+                              <?php 
+                                $tratamientos = TratamientoRiesgoDao::sqlListar();
+                                foreach ($tratamientos as $fila) {
+                                  echo '<option value="'.$fila['tr_id'].'">'.$fila['tr_name'].'</option>';
+                                }
+                              ?>
                             </select>
                           </div>
                         </div>
@@ -195,8 +196,12 @@ $idLugar=0;
                           <label class="col-sm-3 col-form-label">Accion 1</label>
                           <div class="col-sm-9">
                             <select id="accion1" class="form-control">
-                              <option>acciones</option>
-                              <option>acciones</option>
+                              <?php 
+                                $acciones1 = AccionDao::sqlListar();
+                                foreach ($acciones1 as $fila) {
+                                  echo '<option value="'.$fila['ac_id'].'">'.$fila['ac_name'].'</option>';
+                                }
+                              ?>
                             </select>
                           </div>
                         </div>
@@ -219,8 +224,12 @@ $idLugar=0;
                           <label class="col-sm-3 col-form-label">Accion 2</label>
                           <div class="col-sm-9">
                             <select id="accion2" class="form-control">
-                              <option>acciones</option>
-                              <option>acciones</option>
+                              <?php 
+                                $acciones2 = AccionDao::sqlListar();
+                                foreach ($acciones2 as $fila) {
+                                  echo '<option value="'.$fila['ac_id'].'">'.$fila['ac_name'].'</option>';
+                                }
+                              ?>
                             </select>
                           </div>
                         </div>
