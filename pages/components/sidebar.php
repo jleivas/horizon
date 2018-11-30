@@ -74,7 +74,7 @@ $bg_sp=buildPath();
                   <a class="nav-link" href="<?php echo $bg_sp;?>pages/config/acciones">Acciones Correctivas</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="<?php echo $bg_sp;?>pages/config/condiciones-correctivas">Condiciones Correctivas</a>
+                  <a class="nav-link" href="<?php echo $bg_sp;?>pages/config/condiciones">Condiciones Correctivas</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="<?php echo $bg_sp;?>pages/config/autores">Responsables</a>
