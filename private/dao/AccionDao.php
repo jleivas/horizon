@@ -78,7 +78,7 @@ class AccionDao {
    {
   $fila= BD::getInstance()->sqlFetch();
   if (!$fila) return null;
-  $acAux = new AccionDao($fila["ac_id"]
+  $acAux = new Accion($fila["ac_id"]
           ,$fila["ac_name"]
           ,$fila["ac_status"]);
         return $acAux;
