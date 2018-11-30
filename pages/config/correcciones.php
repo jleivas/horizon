@@ -7,6 +7,7 @@ require_once($rootDir . "/private/dao/CausaDao.php");
 require_once($rootDir . "/private/dao/ConsecuenciaDao.php");
 require_once($rootDir . "/private/dao/TratamientoRiesgoDao.php");
 require_once($rootDir . "/private/dao/AccionDao.php");
+require_once($rootDir . "/private/dao/AutorDao.php");
 $bg_sp=buildPath();
 $separator = "/";
 $navBar = "..".$separator."components".$separator."navbar.php";
@@ -211,8 +212,12 @@ $idLugar=0;
                           <label class="col-sm-3 col-form-label">Responsable</label>
                           <div class="col-sm-9">
                             <select id="resp-accion1" class="form-control">
-                              <option>resp1</option>
-                              <option>resp2</option>
+                              <?php 
+                                $responsables1 = AutorDao::sqlListar();
+                                foreach ($responsables1 as $fila) {
+                                  echo '<option value="'.$fila['au_id'].'">'.$fila['au_name'].'</option>';
+                                }
+                              ?>
                             </select>
                           </div>
                         </div>
@@ -239,8 +244,12 @@ $idLugar=0;
                           <label class="col-sm-3 col-form-label">Responsable</label>
                           <div class="col-sm-9">
                             <select id="resp-accion2" class="form-control">
-                              <option>resp1</option>
-                              <option>resp2</option>
+                              <?php 
+                                $responsables2 = AutorDao::sqlListar();
+                                foreach ($responsables2 as $fila) {
+                                  echo '<option value="'.$fila['au_id'].'">'.$fila['au_name'].'</option>';
+                                }
+                              ?>
                             </select>
                           </div>
                         </div>
