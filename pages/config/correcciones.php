@@ -8,6 +8,8 @@ require_once($rootDir . "/private/dao/ConsecuenciaDao.php");
 require_once($rootDir . "/private/dao/TratamientoRiesgoDao.php");
 require_once($rootDir . "/private/dao/AccionDao.php");
 require_once($rootDir . "/private/dao/AutorDao.php");
+require_once($rootDir . "/private/dao/CondicionDao.php");
+require_once($rootDir . "/private/dao/CorreccionDao.php");
 $bg_sp=buildPath();
 $separator = "/";
 $navBar = "..".$separator."components".$separator."navbar.php";
@@ -43,15 +45,16 @@ function buildPath(){
 		<?php
     }
     $load=EvaluacionDao::sqlCargar($id);
+    $correccion = CorreccionDao::sqlCargarFromEvaluacion($load->getId());
 
-$idLugar=0;
-	$codEmpresa="000";
+  $idLugar=0;
+  $codEmpresa="000";
 	if(isset($_GET['idPlace'])){
 		$idLugar=$_GET['idPlace'];
 	}
 	if(isset($_GET['rut'])){
 	$codEmpresa=$_GET['rut'];
-	}
+  }
 
 	if($idLugar === 0 || $codEmpresa === "000"){
 	?>
@@ -100,7 +103,7 @@ $idLugar=0;
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Correcciones</h4>
-                  <form class="form-sample">
+                  <form class="form-sample" action="updateCorreccion" method="post">
                     <p class="card-description">
                       Número de Item de la evaluación: <?php echo $load->getId();?>
                     </p>
@@ -109,6 +112,9 @@ $idLugar=0;
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Blanco u Objetivo</label>
                           <div class="col-sm-9">
+                            <input type="hidden" id="idEval" name="idEval" value="<?php echo $load->getId();?>"/>
+                            <input type="hidden" id="idPlace" name="idPlace" value="<?php echo $idLugar;?>"/>
+                            <input type="hidden" id="rut" name="rut" value="<?php echo $codEmpresa;?>"/>
                             <input type="text" id="blanco" class="form-control" value = "<?= $load->getObject()?>" readonly/>
                           </div>
                         </div>
@@ -117,7 +123,7 @@ $idLugar=0;
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Tipo de riesgo</label>
                           <div class="col-sm-9">
-                            <input type="text" id="tipo-riesgo" class="form-control" value ="<?php $tipo = TipoRiesgoDao::sqlCargar($load->getIdTipoRiesgo());echo $tipo->getName();?>" readonly/>
+                            <input type="text" id="tipo-riesgo" name="tipo-riesgo"  class="form-control" value ="<?php $tipo = TipoRiesgoDao::sqlCargar($load->getIdTipoRiesgo());echo $tipo->getName();?>" readonly/>
                           </div>
                         </div>
                       </div>
@@ -125,7 +131,7 @@ $idLugar=0;
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Causa o Vector</label>
                           <div class="col-sm-9">
-                            <input type="text" id="causa" class="form-control" value ="<?php $causa = CausaDao::sqlCargar($load->getIdCausa());echo $causa->getName();?>" readonly/>
+                            <input type="text" id="causa" name="causa" class="form-control" value ="<?php $causa = CausaDao::sqlCargar($load->getIdCausa());echo $causa->getName();?>" readonly/>
                           </div>
                         </div>
                       </div>
@@ -133,7 +139,7 @@ $idLugar=0;
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Consecuencias inmediatas</label>
                           <div class="col-sm-9">
-                            <input type="text" id="consecuencias" class="form-control" value ="<?php $result = ConsecuenciaDao::sqlCargar($load->getIdResult());echo $result->getName();?>" readonly />
+                            <input type="text" id="consecuencias" name="consecuencias" class="form-control" value ="<?php $result = ConsecuenciaDao::sqlCargar($load->getIdResult());echo $result->getName();?>" readonly />
                           </div>
                         </div>
                       </div>
@@ -176,11 +182,15 @@ $idLugar=0;
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label"><strong>Tratamiento del riesgo</strong></label>
                           <div class="col-sm-9">
-                            <select id = "tratamineto" class="form-control">
+                            <select id = "tratamiento" name = "tratamiento" class="form-control">
                               <?php 
                                 $tratamientos = TratamientoRiesgoDao::sqlListar();
                                 foreach ($tratamientos as $fila) {
-                                  echo '<option value="'.$fila['tr_id'].'">'.$fila['tr_name'].'</option>';
+                                  if($correccion->getTratamiento() == $fila['tr_id']){
+                                    echo '<option value="'.$fila['tr_id'].'" selected>'.$fila['tr_name'].'</option>';
+                                  }else{
+                                    echo '<option value="'.$fila['tr_id'].'">'.$fila['tr_name'].'</option>';
+                                  }
                                 }
                               ?>
                             </select>
@@ -196,11 +206,15 @@ $idLugar=0;
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Accion 1</label>
                           <div class="col-sm-9">
-                            <select id="accion1" class="form-control">
+                            <select id="accion1" name="accion1" class="form-control">
                               <?php 
                                 $acciones1 = AccionDao::sqlListar();
                                 foreach ($acciones1 as $fila) {
-                                  echo '<option value="'.$fila['ac_id'].'">'.$fila['ac_name'].'</option>';
+                                  if($correccion->getAccion1() == $fila['ac_id']){
+                                    echo '<option value="'.$fila['ac_id'].'" selected>'.$fila['ac_name'].'</option>';
+                                  }else{
+                                    echo '<option value="'.$fila['ac_id'].'">'.$fila['ac_name'].'</option>';
+                                  }
                                 }
                               ?>
                             </select>
@@ -211,11 +225,15 @@ $idLugar=0;
                       <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Responsable</label>
                           <div class="col-sm-9">
-                            <select id="resp-accion1" class="form-control">
+                            <select id="resp-accion1" name="resp-accion1" class="form-control">
                               <?php 
                                 $responsables1 = AutorDao::sqlListar();
                                 foreach ($responsables1 as $fila) {
-                                  echo '<option value="'.$fila['au_id'].'">'.$fila['au_name'].'</option>';
+                                  if($correccion->getRespAccion1() == $fila['au_id']){
+                                    echo '<option value="'.$fila['au_id'].'" selected>'.$fila['au_name'].'</option>';
+                                  }else{
+                                    echo '<option value="'.$fila['au_id'].'">'.$fila['au_name'].'</option>';
+                                  }
                                 }
                               ?>
                             </select>
@@ -228,11 +246,15 @@ $idLugar=0;
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Accion 2</label>
                           <div class="col-sm-9">
-                            <select id="accion2" class="form-control">
+                            <select id="accion2" name="accion2" class="form-control">
                               <?php 
                                 $acciones2 = AccionDao::sqlListar();
                                 foreach ($acciones2 as $fila) {
-                                  echo '<option value="'.$fila['ac_id'].'">'.$fila['ac_name'].'</option>';
+                                  if($correccion->getAccion2() == $fila['ac_id']){
+                                    echo '<option value="'.$fila['ac_id'].'" selected>'.$fila['ac_name'].'</option>';
+                                  }else{
+                                    echo '<option value="'.$fila['ac_id'].'">'.$fila['ac_name'].'</option>';
+                                  }
                                 }
                               ?>
                             </select>
@@ -243,11 +265,15 @@ $idLugar=0;
                       <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Responsable</label>
                           <div class="col-sm-9">
-                            <select id="resp-accion2" class="form-control">
+                            <select id="resp-accion2" name="resp-accion2" class="form-control">
                               <?php 
                                 $responsables2 = AutorDao::sqlListar();
                                 foreach ($responsables2 as $fila) {
-                                  echo '<option value="'.$fila['au_id'].'">'.$fila['au_name'].'</option>';
+                                  if($correccion->getRespAccion2() == $fila['au_id']){
+                                    echo '<option value="'.$fila['au_id'].'" selected>'.$fila['au_name'].'</option>';
+                                  }else{
+                                    echo '<option value="'.$fila['au_id'].'">'.$fila['au_name'].'</option>';
+                                  }
                                 }
                               ?>
                             </select>
@@ -263,9 +289,17 @@ $idLugar=0;
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Condición 1</label>
                           <div class="col-sm-9">
-                            <select id="condicion1" class="form-control">
-                              <option>condiciones</option>
-                              <option>condiciones</option>
+                            <select id = "condicion1" name = "condicion1" class="form-control">
+                              <?php 
+                                $condicion1 = CondicionDao::sqlListar();
+                                foreach ($condicion1 as $fila) {
+                                  if($correccion->getCondicion1() == $fila['cn_id']){
+                                    echo '<option value="'.$fila['cn_id'].'" selected>'.$fila['cn_name'].'</option>';
+                                  }else{  
+                                    echo '<option value="'.$fila['cn_id'].'">'.$fila['cn_name'].'</option>';
+                                  }
+                                }
+                              ?>
                             </select>
                           </div>
                         </div>
@@ -274,9 +308,17 @@ $idLugar=0;
                       <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Responsable</label>
                           <div class="col-sm-9">
-                            <select id="resp-condicion1" class="form-control">
-                              <option>resp1</option>
-                              <option>resp2</option>
+                            <select id="resp-condicion1" name="resp-condicion1" class="form-control">
+                            <?php 
+                                $responsables3 = AutorDao::sqlListar();
+                                foreach ($responsables3 as $fila) {
+                                  if($correccion->getRespCondicion1() == $fila['au_id']){
+                                    echo '<option value="'.$fila['au_id'].'" selected>'.$fila['au_name'].'</option>';
+                                  }else{
+                                    echo '<option value="'.$fila['au_id'].'">'.$fila['au_name'].'</option>';
+                                  }
+                                }
+                              ?>
                             </select>
                           </div>
                         </div>
@@ -287,9 +329,17 @@ $idLugar=0;
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Condición 2</label>
                           <div class="col-sm-9">
-                            <select id="condicion2" class="form-control">
-                              <option>condicion</option>
-                              <option>condicion</option>
+                            <select id = "condicion2" name = "condicion2" class="form-control">
+                              <?php 
+                                $condicion2 = CondicionDao::sqlListar();
+                                foreach ($condicion2 as $fila) {
+                                  if($correccion->getCondicion2() == $fila['cn_id']){
+                                    echo '<option value="'.$fila['cn_id'].'" selected>'.$fila['cn_name'].'</option>';
+                                  }else{
+                                    echo '<option value="'.$fila['cn_id'].'">'.$fila['cn_name'].'</option>';
+                                  }
+                                }
+                              ?>
                             </select>
                           </div>
                         </div>
@@ -298,9 +348,17 @@ $idLugar=0;
                       <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Responsable</label>
                           <div class="col-sm-9">
-                            <select id="resp-condicion2" class="form-control">
-                              <option>resp1</option>
-                              <option>resp2</option>
+                            <select id="resp-condicion2" name="resp-condicion2" class="form-control">
+                              <?php 
+                                $responsables4 = AutorDao::sqlListar();
+                                foreach ($responsables4 as $fila) {
+                                  if($correccion->getRespCondicion2() == $fila['au_id']){
+                                    echo '<option value="'.$fila['au_id'].'" selected>'.$fila['au_name'].'</option>';
+                                  }else{
+                                    echo '<option value="'.$fila['au_id'].'">'.$fila['au_name'].'</option>';
+                                  }
+                                }
+                              ?>
                             </select>
                           </div>
                         </div>
@@ -308,21 +366,15 @@ $idLugar=0;
                     </div>
                     <div class="row">
                       <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-6 col-form-label"><strong>Plan de acción</strong></label>
-                          <div class="col-sm-10">
-                            <textarea rows="4" cols="40">
-                            </textarea>
-                          </div>
+                        <div class="form-group">
+                          <label for="plan-accion"><strong>Plan de acción</strong></label>
+                          <textarea class="form-control" id="plan-accion" name="plan-accion" rows="5"><?php echo $correccion->getPlanAccion();?></textarea>
                         </div>
                       </div>
                       <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-6 col-form-label"><strong>Plan de corrección</strong></label>
-                          <div class="col-sm-10">
-                            <textarea rows="4" cols="40">
-                            </textarea>
-                          </div>
+                        <div class="form-group">
+                          <label for="plan-correccion"><strong>Plan de corrección</strong></label>
+                          <textarea class="form-control" id="plan-correccion" name="plan-correccion" rows="5"><?php echo $correccion->getPlanCondicion();?></textarea>
                         </div>
                       </div>
                     </div>

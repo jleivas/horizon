@@ -95,7 +95,7 @@ class CondicionDao {
 
    public static function sqlTodo()
    {   
-       $misRegistros= BD::getInstance()->sqlSelectTodo("SELECT * FROM `cobdicion`");
+       $misRegistros= BD::getInstance()->sqlSelectTodo("SELECT * FROM `condicion`");
        return $misRegistros;
    }
 

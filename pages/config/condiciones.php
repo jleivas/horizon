@@ -134,7 +134,7 @@ function buildPath(){
                           </td>
                           <td>
                             <?php
-                            if($fila['au_status']==1){
+                            if($fila['cn_status']==1){
                               ?>
                             <div class="btn-group dropdown">
                               <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

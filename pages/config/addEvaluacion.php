@@ -1,6 +1,7 @@
 <?php
 if (!isset($rootDir)) $rootDir = $_SERVER['DOCUMENT_ROOT']."/horizon";
 require_once($rootDir . "/private/dao/EvaluacionDao.php");
+require_once($rootDir . "/private/dao/CorreccionDao.php");
 $dominio = $_SERVER['HTTP_HOST']; 
 
 	$idLugar=0;
@@ -76,10 +77,14 @@ $dominio = $_SERVER['HTTP_HOST'];
 				$eva = new Evaluacion($id, $objetivo,$zona,$tipo,$causa,$atr,
                 $exp,$deb,$result,$idLugar,$estado);
 				EvaluacionDao::sqlInsert($eva);
+				$correccion = new Correccion(CorreccionDao::sqladdId(), $id,1,1,1,
+				1,1,1,1,1,1,
+				"","","idUser",1);
+				CorreccionDao::sqlInsert($correccion);
 				?>
 					<script>
-						alert('Evaluación registrada exitosamente.');
-						window.location.href='evaluaciones?<?php echo $historyPath;?>';
+						alert('Evaluación registrada exitosamente.\nFalta configurar las acciones y condiciones correctivas.');
+						window.location.href='correcciones?idEval=<?php echo $id;?>&rut=<?php echo $codEmpresa;?>&idPlace=<?php echo $idLugar;?>';
 					</script>
 				<?php
 		}
